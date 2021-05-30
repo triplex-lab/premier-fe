@@ -1,0 +1,27 @@
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav > a {
+  cursor: pointer;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-content: center;
+  place-items: center;
+  margin: 10px;
+  text-decoration: none;
+  color: #abacb1;
+
+  transition: color 250ms linear;
+}
+
+.nav > a:hover,
+.nav > a:focus {
+  color: #ffffff;
+}
+
+.icon {
+  margin-right: 10px;
+}

@@ -1,0 +1,15 @@
+.text {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  margin: 0;
+}
+
+.icon {
+  margin-left: 20px;
+}
+
+.in {
+  max-width: 350px;
+  padding: 10px;
+}

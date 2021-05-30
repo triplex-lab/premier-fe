@@ -1,0 +1,6 @@
+.wrap {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-around;
+  margin-top: 50px;
+}

@@ -1,0 +1,8 @@
+.root {
+  display: grid;
+  place-content: center;
+}
+
+.img {
+  height: 180px;
+}

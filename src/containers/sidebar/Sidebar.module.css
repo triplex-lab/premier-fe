@@ -1,0 +1,23 @@
+.root {
+  position: relative;
+  min-width: 200px;
+  background-color: #2e303d;
+}
+
+.sidebar {
+  position: fixed;
+  width: 200px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.img {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.icon {
+  margin-right: 10px;
+}

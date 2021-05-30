@@ -1,0 +1,18 @@
+.root {
+  display: grid;
+}
+
+.root > *:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+.success {
+  padding: 10px;
+
+  color: green;
+  text-align: center;
+  font-size: 16px;
+
+  border: 1px solid green;
+  border-radius: 20px;
+}

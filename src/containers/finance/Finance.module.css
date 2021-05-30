@@ -1,0 +1,14 @@
+.root {
+  padding: 20px;
+}
+
+.payCards {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 50px;
+}
+.payCards > * {
+  width: 300px;
+  height: 300px;
+  border: 1px solid teal;
+}

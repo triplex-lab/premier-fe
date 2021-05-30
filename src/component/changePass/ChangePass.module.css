@@ -1,0 +1,13 @@
+.root {
+  /* display: grid; */
+  /* flex-grow: 1; */
+  /* height: 100%; */
+  /* place-items: center; */
+  /* place-content: center; */
+  /* margin: 0 auto; */
+  /* max-width: 500px; */
+}
+
+.form > *:not(:last-child) {
+  margin-bottom: 15px;
+}

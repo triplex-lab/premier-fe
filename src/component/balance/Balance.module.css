@@ -1,0 +1,16 @@
+.root {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.number {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  margin: 0;
+}
+
+.icon {
+  margin-right: 10px;
+}
