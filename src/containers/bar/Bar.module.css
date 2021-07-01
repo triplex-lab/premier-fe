@@ -1,9 +1,5 @@
 .root {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 50px;
   box-shadow: 0px 4px 8px 0px #bec3d1;
 }
+

@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Unit from "../../component/unit/Unit";
 import Settings from "../settings/Settings";
+import {Container, Grid} from "@material-ui/core";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,15 +39,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
-
 export default function School() {
-  const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -54,8 +47,8 @@ export default function School() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+      <Container>
+      <h2>База знаний</h2>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -70,7 +63,6 @@ export default function School() {
             {...a11yProps(2)}
           />
         </Tabs>
-      </AppBar>
       <TabPanel value={value} index={0}>
         <Unit index={0} />
       </TabPanel>
@@ -80,6 +72,6 @@ export default function School() {
       <TabPanel value={value} index={2}>
         <Unit index={2} />
       </TabPanel>
-    </div>
+      </Container>
   );
 }

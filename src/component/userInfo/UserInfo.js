@@ -56,7 +56,7 @@ export default function UserInfo() {
           variant="outlined"
           id="tel"
           name="tel"
-          label="tel"
+          label="Телефон"
           value={formik.values.tel}
           onChange={formik.handleChange}
           error={formik.touched.tel && Boolean(formik.errors.tel)}
@@ -67,7 +67,7 @@ export default function UserInfo() {
           variant="outlined"
           id="name"
           name="name"
-          label="name"
+          label="Имя"
           value={formik.values.name}
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}
@@ -78,7 +78,7 @@ export default function UserInfo() {
           variant="outlined"
           id="lastname"
           name="lastname"
-          label="lastname"
+          label="Фамилия"
           value={formik.values.lastname}
           onChange={formik.handleChange}
           error={formik.touched.lastname && Boolean(formik.errors.lastname)}
@@ -89,7 +89,7 @@ export default function UserInfo() {
           variant="outlined"
           id="middlename"
           name="middlename"
-          label="middlename"
+          label="Отчество"
           value={formik.values.middlename}
           onChange={formik.handleChange}
           error={formik.touched.middlename && Boolean(formik.errors.middlename)}
@@ -100,7 +100,7 @@ export default function UserInfo() {
           variant="outlined"
           id="city"
           name="city"
-          label="city"
+          label="Город"
           value={formik.values.city}
           onChange={formik.handleChange}
           error={formik.touched.city && Boolean(formik.errors.city)}

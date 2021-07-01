@@ -9,8 +9,7 @@ export default function Support() {
   let name = "____";
   let lastname = "________";
   if (info !== null) {
-    lastname = info.lastname;
-    name = info.name;
+
   }
   console.log(email, info);
   return (

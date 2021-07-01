@@ -1,23 +1,8 @@
-.root {
-  position: relative;
-  min-width: 200px;
-  background-color: #2e303d;
-}
-
-.sidebar {
-  position: fixed;
-  width: 200px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
 .img {
-  width: 100%;
-  margin-bottom: 20px;
+    width: 100px;
+    height: 100px;
 }
 
-.icon {
-  margin-right: 10px;
+.root {
+    padding: 5px;
 }
