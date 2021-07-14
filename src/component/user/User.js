@@ -13,11 +13,11 @@ export default function User() {
   }
   return (
     <div className={s.root}>
-      <Avatar alt={`${name}`} src="/broken-image.jpg" />
       <div className={s.wrap}>
         <p className={s.name}>{name}</p>
         <p className={s.name}>{lastname}</p>
       </div>
+      <Avatar alt={`${name}`} src="/broken-image.jpg" />
     </div>
   );
 }

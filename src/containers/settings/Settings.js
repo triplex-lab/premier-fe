@@ -1,8 +1,10 @@
 import React from "react";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+
 import TabPanel from "../../component/tabPanel/TabPanel";
 import Links from "../../component/links/Links";
 import PaySettings from "../../component/paySettings/PaySettings";
@@ -12,7 +14,7 @@ import UserInfo from "../../component/userInfo/UserInfo";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
-    height: "calc(100% - 70px)",
+    height: "100%",
   },
 });
 
@@ -32,6 +34,7 @@ export default function Settings() {
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
+        variant="fullWidth"
         centered
       >
         <Tab label="Общая информация" />

@@ -13,7 +13,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import HelpIcon from "@material-ui/icons/Help";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-export default function Nav() {
+export default function Nav({setIsMobileMode}) {
   const dispatch = useDispatch();
   const token = useSelector(({ auth }) => auth.token);
 
@@ -21,40 +21,46 @@ export default function Nav() {
     await dispatch(signOut(token));
   };
 
+  const NavItem = ({to, className, children}) => {
+    return <NavLink to={to} className-={className} onClick={() => setIsMobileMode(true)}>
+      {children}
+    </NavLink>
+  }
+
   return (
     <div className={s.nav}>
-      <NavLink to={`/dashboard`}>
+      <NavItem to={`/dashboard`}>
         <DashboardIcon className={s.icon} />
         Главная
-      </NavLink>
-      <NavLink to={`/dashboard/team`}>
+      </NavItem>
+      <NavItem to={`/dashboard/team`}>
         <SupervisorAccountIcon className={s.icon} />
         Команда
-      </NavLink>
-      <NavLink to={`/dashboard/school`}>
+      </NavItem>
+      <NavItem to={`/dashboard/school`}>
         <SchoolIcon className={s.icon} />
         База знаний
-      </NavLink>
-      <NavLink to={`/dashboard/finance`}>
+      </NavItem>
+      <NavItem to={`/dashboard/finance`}>
         <AccountBalanceWalletIcon className={s.icon} />
         Мой кошелек
-      </NavLink>
-      <NavLink to={`/dashboard/store`}>
+      </NavItem>
+      <NavItem to={`/dashboard/store`}>
         <ShoppingBasketIcon className={s.icon} />
         Premier Store
-      </NavLink>
-      <NavLink to={`/dashboard/instruction`}>
+      </NavItem>
+      <NavItem to={`/dashboard/instruction`}>
         <DescriptionIcon className={s.icon} />
         Инструкции
-      </NavLink>
-      <NavLink to={`/dashboard/settings`}>
+      </NavItem>
+      <NavItem to={`/dashboard/settings`}>
         <SettingsIcon className={s.icon} />
         Настройки
-      </NavLink>
-      <NavLink to={`/dashboard/support`}>
+      </NavItem>
+      <NavItem to={`/dashboard/support`}>
         <HelpIcon className={s.icon} />
         Поддержка
-      </NavLink>
+      </NavItem>
       <a className={s.outBtn} onClick={() => out()}>
         <ExitToAppIcon className={s.icon} /> Out
       </a>
