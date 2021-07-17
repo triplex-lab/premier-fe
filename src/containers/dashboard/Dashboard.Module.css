@@ -1,0 +1,330 @@
+.root {
+  width: 100%;
+  height: calc(100% - 40px);
+  margin-top: 40px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+}
+
+.leftContainer {
+  height: 100%;
+  width: 15%;
+  padding: 40px 0px 40px 0px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 2%;
+}
+
+.centerContainer {
+  height: 100%;
+  width: 45%;
+  margin-left: 8%;
+  padding: 30px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.rightContainer {
+  height: 100%;
+  width: 32%;
+  min-width: 305px;
+  padding: 30px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-right: 2%;
+}
+
+.qualification {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  color: #fff;
+  flex: 1 1 auto;
+}
+
+.qualificationTitle {
+  background-color: #302e3c;
+  padding: 10px;
+  font-size: calc(11px + 8 * (100vw / 1920));
+  font-weight: 600;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.qualificationValue {
+  background-color: #6d7182;
+  padding: 10px;
+  font-size: calc(13px + 12 * (100vw / 1920));
+  font-weight: bold;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.userInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.userContainer {
+  padding: 8px;
+  width: 100%;
+  color: #da7e46;
+  font-size: 21px;
+  font-weight: bold;
+  border-radius: 8px;
+  background-color: #171717;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Запрещаем перенос строк */
+}
+
+.userProfit {
+  font-size: 25px;
+  font-weight: 700;
+  color: #000;
+}
+
+.financeTerm {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+}
+
+.financeTermTitle {
+  font-size: 24px;
+  font-weight: 500;
+  max-width: 310px;
+}
+
+.financeTermValue {
+  position: absolute;
+  right: 25px;
+  border-radius: 8px;
+  background-color: #ec860d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 19px;
+  font-weight: 500;
+  padding: 6px 10px;
+}
+
+.statusLeft {
+  margin-top: 20px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusLeftTitle {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.statusLeftValue {
+  margin-top: 5px;
+  color: #52af77;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.myQualification {
+  align-self: center;
+  font-size: 25px;
+  font-weight: 600;
+  margin-top: 45px;
+}
+
+.progress {
+  width: 100%;
+  max-height: 300px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  color: #e681f6;
+  position: relative;
+}
+
+.realProgress {
+  z-index: 1;
+}
+
+.pseudoProgress {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 41px solid #f4f4f4;
+  box-sizing: border-box;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+}
+
+.progressInfo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.progressTitle {
+  color: #438fc4;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.progressValue {
+  margin-top: 10px;
+  color: #000;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.range {
+  width: 85%;
+  min-width: 0;
+  margin-top: 30px;
+  align-self: center;
+}
+
+.rightContainerTitle {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.buttonsControl {
+  display: flex;
+  flex-direction: row;
+  color: #ec860d;
+  width: 88%;
+  justify-content: space-between;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.styledTableCell {
+  text-align: right !important;
+  border-bottom: 1px solid #ec860d !important;
+  color: #ec860d;
+  line-height: unset !important;
+  padding: 25px 0px !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+}
+
+.tableCell {
+  border-bottom: 1px solid #ec860d !important;
+  padding: 25px 0px !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  line-height: unset !important;
+}
+
+@media screen and (max-width: 1150px) {
+  .buttonsControl {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .root {
+    flex-direction: column;
+    align-items: center;
+  }
+  .leftContainer {
+    width: 100%;
+    flex-direction: row;
+    padding: 20px 2% 0px 2%;
+  }
+  .centerContainer {
+    width: 100%;
+    margin-left: 0;
+    padding: 8px 2% 30px 2%;
+    margin-top: 15px;
+    background-color: #efefef;
+  }
+  .rightContainer {
+    width: 100%;
+    padding: 0px 2% 40px 2%;
+  }
+  .userInfo {
+    padding-bottom: 5px;
+    align-items: flex-end;
+  }
+  .userContainer {
+    width: unset;
+  }
+  .financeTermValue {
+    right: 0;
+  }
+  .qualificationValue {
+    font-size: 25px;
+  }
+  .qualificationTitle {
+    font-size: 19px;
+  }
+}
+
+@media screen and (max-width: 567px) {
+  .leftContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .userInfo {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .qualification {
+    width: 100%;
+  }
+  .qualificationTitle {
+    width: 100%;
+  }
+  .qualificationValue {
+    width: 100%;
+    border-top-right-radius: 0;
+  }
+  .userContainer {
+    margin-top: 8px;
+    width: 100%;
+    text-align: right;
+  }
+  .userProfit {
+    text-align: right;
+  }
+  .financeTermTitle {
+    max-width: 250px;
+    font-size: calc(19px + 3 * (100vw / 567));
+  }
+}
