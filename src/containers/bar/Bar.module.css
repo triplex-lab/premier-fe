@@ -17,7 +17,7 @@
   align-items: center;
   /*padding: 0px 70px;*/
   height: 100%;
-  width: 25%;
+  width: 24%;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -32,13 +32,13 @@
 }*/
 
 .userActions {
-  width: 18%;
+  width: 22%;
   justify-content: flex-end;
   padding-right: 20px;
 }
 
 .balance {
-  width: 32%;
+  width: 30%;
 }
 /*.package {
   display: flex;
@@ -64,9 +64,23 @@
   .package {
     display: none;
   }
+  
+  .barItem {
+    width: 40%;
+  }
+
+  .userActions {
+    width: 20%;
+    padding-right: 10px;
+  }
 }
 
 @media screen and (max-width: 481px) {
+  .userActions {
+    width: 20%;
+    padding-right: 0px;
+  }
+
   .root {
     padding: 0px 10px 0px 70px;
   }
