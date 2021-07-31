@@ -1,0 +1,58 @@
+.root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+
+.referalsSection {
+  width: 90%;
+  align-self: center;
+  height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.referalsRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.referal {
+  min-width: 150px;
+  min-height: 130px;
+  max-width: 200px;
+  max-height: 200px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px;
+}
+
+.referalName {
+  margin-bottom: 7px;
+  font-size: 19px;
+}
+
+.referalEmail {
+  margin-bottom: 7px;
+  font-size: 19px;
+}
+
+.removeButton {
+  margin-top: 10px !important;
+}
+
+.referalsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

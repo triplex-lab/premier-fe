@@ -20,26 +20,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import axios from 'axios';
+import moment from 'moment';
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData("07.03.2021 12:36", "тип", 11305),
-  createData("07.03.2021 12:36", "Вывод со счёта", -452),
-  createData("07.03.2021 12:36", "Квартальный бонус", -262),
-  createData("07.03.2021 12:36", "Вывод со счёта", 159),
-  createData("07.03.2021 12:36", "Апгрейд пакета START до STANDARD", 356),
-  createData("07.03.2021 12:36", "Перевод средств от партнера 3", -408),
-  createData("07.03.2021 12:36", "Покупка пакета START", -237),
-  createData("07.03.2021 12:36", "Квартальный бонус", 375),
-  createData("07.03.2021 12:36", "Перевод средств от партнера 3", 518),
-  createData("07.03.2021 12:36", "Вывод со счёта", 392),
-  createData("07.03.2021 12:36", "Перевод средств от партнера 2", 31),
-  createData("07.03.2021 12:36", "Квартальный бонус", 5360),
-  createData("07.03.2021 12:36", "тип", 437),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -69,13 +52,13 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "name",
+    id: "date",
     numeric: false,
     disablePadding: true,
     label: "Дата",
   },
-  { id: "calories", numeric: true, disablePadding: false, label: "Тип" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Сумма" },
+  { id: "comment", numeric: true, disablePadding: false, label: "Тип" },
+  { id: "money", numeric: true, disablePadding: false, label: "Сумма" },
 ];
 
 function EnhancedTableHead(props) {
@@ -242,6 +225,25 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] =  React.useState([]);
+
+  if (!rows.length) {
+    (async function() {
+      const res = await axios.get('http://localhost:5000/api/user/1/operations')
+        //.then(res => {
+        //  setRows(res.data)
+        //})
+        //.catch(err => console.log(err))
+        if (res.data) {
+          setRows(res.data)
+        }
+    })()
+    return null;
+  }
+
+  const getCalendarDate = (date) => {
+    return moment(date).calendar();
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -251,7 +253,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((row) => row.date);
       setSelected(newSelecteds);
       return;
     }
@@ -330,7 +332,7 @@ export default function EnhancedTable() {
                       // role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.date + index}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -345,15 +347,15 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {row.name}
+                        {getCalendarDate(row.date)}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
+                      <TableCell align="right">{row.comment}</TableCell>
                       {/* <TableCell align="right">{row.fat}</TableCell> */}
                       <TableCell align="right">
                         {row.fat > 0 ? (
-                          <span style={{ color: "green" }}>{row.fat}</span>
+                          <span style={{ color: "green" }}>{row.money}</span>
                         ) : (
-                          <span style={{ color: "red" }}>{row.fat}</span>
+                          <span style={{ color: "red" }}>{row.money}</span>
                         )}
                       </TableCell>
                     </TableRow>

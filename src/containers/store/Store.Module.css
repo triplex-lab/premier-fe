@@ -23,6 +23,7 @@
   border-radius: 20px;
   margin: 20px 0px;
   position: relative;
+  color: #ec860d;
 }
 
 .card {
@@ -48,6 +49,11 @@
 
 .cardTitle {
   position: relative;
+  font-size: calc(25px + 10 * (100% / 350));
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cardSubtitle {
@@ -60,11 +66,46 @@
   font-weight: 400;
 }
 
+.cardHeader {
+  position: absolute;
+  height: 13%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.cardStyledSubtitle {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.chevronRight {
+  max-width: 25px;
+  position: relative;
+}
+
+.headerRightItem {
+  font-size: calc(22px + 13 * (100% / 350));
+  color: #ec860d;
+  font-weight: 600;
+}
+
+.headerLeftItem {
+  font-size: calc(22px + 13 * (100% / 350));
+  font-weight: 600;
+}
+
 .infoSection {
   position: absolute;
-  height: 85%;
+  height: 87%;
   width: 100%;
-  top: 15%;
+  top: 13%;
   left: 0;
   background-color: #fff;
   display: flex;
@@ -115,25 +156,13 @@
 }
 
 .applyBtn {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  width: 150px;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f17f21;
-  border-radius: 12px;
-  font-size: 25px;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  transition: all .1s ease;
+  position: absolute !important;
+  bottom: 10px !important;
+  left: 20px !important;
 }
 
-.applyBtn:hover {
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2) inset;
+.styledDialogContent {
+  min-width: 300px;
 }
 
 @media screen and (max-width: 1300px) {
