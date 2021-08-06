@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router";
 import Bar from "../containers/bar/Bar";
 import Dashboard from "../containers/dashboard/Dashboard";
@@ -16,6 +16,7 @@ import { getCurrentUser } from "../redux/user/userOperations";
 
 export default function Main(props) {
   const { match } = props;
+  const [isMobileMode, setIsMobileMode] = useState(true);
   const token = useSelector(({ auth }) => auth.token);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,9 +24,15 @@ export default function Main(props) {
   }, [token]);
   return (
     <div className={s.main}>
-      <Sidebar />
+      <Sidebar
+        isMobileMode={isMobileMode}
+        setIsMobileMode={setIsMobileMode}
+      />
+      <Bar
+        isMobileMode={isMobileMode}
+        setIsMobileMode={setIsMobileMode}
+      />
       <div className={s.layout}>
-        <Bar />
         <Route path={`${match.path}`} exact>
           <Dashboard />
         </Route>

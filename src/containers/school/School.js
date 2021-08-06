@@ -61,6 +61,7 @@ export default function School() {
           onChange={handleChange}
           centered
           aria-label="simple tabs example"
+          variant="fullWidth"
         >
           <Tab label="Первый Курс" {...a11yProps(0)} />
           <Tab label="Второй Курс" {...a11yProps(1)} />
