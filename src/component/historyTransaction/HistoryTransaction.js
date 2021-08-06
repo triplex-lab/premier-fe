@@ -22,6 +22,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import axios from 'axios';
 import moment from 'moment';
+import { useEffect } from "react";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -227,19 +228,19 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] =  React.useState([]);
 
-  if (!rows.length) {
-    (async function() {
-      const res = await axios.get('http://localhost:5000/api/user/1/operations')
-        //.then(res => {
+  useEffect(async () => {
+    if (!rows.length) {
+      const res = await axios.get('/finance')
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err))
+        //if (res.data) {
         //  setRows(res.data)
-        //})
-        //.catch(err => console.log(err))
-        if (res.data) {
-          setRows(res.data)
-        }
-    })()
-    return null;
-  }
+        //}
+      return null;
+    }
+  }, []);
 
   const getCalendarDate = (date) => {
     return moment(date).calendar();
@@ -300,89 +301,7 @@ export default function EnhancedTable() {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              // onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      // onClick={(event) => handleClick(event, row.name)}
-                      // role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.date + index}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        {/* <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        /> */}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {getCalendarDate(row.date)}
-                      </TableCell>
-                      <TableCell align="right">{row.comment}</TableCell>
-                      {/* <TableCell align="right">{row.fat}</TableCell> */}
-                      <TableCell align="right">
-                        {row.fat > 0 ? (
-                          <span style={{ color: "green" }}>{row.money}</span>
-                        ) : (
-                          <span style={{ color: "red" }}>{row.money}</span>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Варианты таблицы"
-      />
+     dasdasd
     </div>
   );
 }

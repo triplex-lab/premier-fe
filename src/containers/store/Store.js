@@ -23,7 +23,7 @@ import StoreCardsControl from "./StoreCardsControl";
 export default function Store() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currPackage, setCurrPackage] = useState('');
+  const [currPackageName, setCurrPackageName] = useState('');
   const [packages, setPackages] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,23 +33,27 @@ export default function Store() {
     if (!user.id) {
       return;
     }
-    await axios.get(`http://localhost:5000/api/user/${user.id}/upgrades`)
+    await axios.get(`/order`)
       .then(response => {
-        setPackages(response.data)
+        if (response.data && response.data.packs) {
+          setPackages(response.data.packs)
+        }
       })
       .catch(error => console.log(error))
   }
 
   const postPackages = async () => {
-    if (!currPackage || isLoading) {
+    if (!currPackageName || isLoading) {
       return;
     }
     setIsLoading(true);
-    await axios.post(`http://localhost:5000/api/user/${user.id}/upgrades`, {
-      packetName: currPackage,
+    const [currPack] = packages.filter((pack, index) => pack.name === currPackageName);
+    console.log(currPack)
+    await axios.post(`http://localhost:5000/order/buy`, {
+      packId: currPack.id,
     })
       .then(response => {
-        if (!!response.data) {
+        if (response.data) {
           getPackages();
           setIsModalOpen(false);
           setIsLoading(false)
@@ -68,13 +72,13 @@ export default function Store() {
 
   return <div className={s.root}>
     <Paper className={s.paper}>
-      <h1>Primer Store</h1>
+      <h1 style={{color: "#ec860d"}}>Primer Store</h1>
       <Divider />
       <div className={s.cardsHolder}>
 
         <StoreCardsControl
           packages={packages}
-          setCurrPackage={setCurrPackage}
+          setCurrPackage={setCurrPackageName}
           setIsModalOpen={setIsModalOpen}
         />
 
@@ -107,11 +111,11 @@ export default function Store() {
               label="Название пакета"
               type="text"
               fullWidth
-              value={currPackage}
-              onChange={(e) => setCurrPackage(e.target.value)}
+              value={currPackageName}
+              onChange={(e) => setCurrPackageName(e.target.value)}
             >
-              {!!packages && Object.keys(packages).map((pack, index) => {
-                return <MenuItem key={index} value={pack}>{pack}</MenuItem>
+              {packages && packages.map((pack, index) => {
+                return <MenuItem key={index} value={pack.name}>{pack.name}</MenuItem>
               })}
             </Select>
           </FormControl>
@@ -123,7 +127,7 @@ export default function Store() {
           <Button onClick={() => setIsModalOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button disabled={isLoading || !currPackage} onClick={postPackages} color="primary">
+          <Button disabled={isLoading || !currPackageName} onClick={postPackages} color="primary">
             Next
           </Button>
         </DialogActions>

@@ -27,7 +27,7 @@ export default class ReferalsBinaryTree extends React.Component {
     if (user) {
       const res = await axios.get(`/team`)
       .then(response => {
-        return response.data;
+        return response.data.subnodes;
       })
       if (!this.state.referals.length && res.length) {
         this.setState({

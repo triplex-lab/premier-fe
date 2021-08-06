@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   padding: 10px;
+  min-height: calc(100vh - 100px);
 }
 
 .paper {
@@ -10,12 +11,12 @@
   display: flex;
   flex-direction: column;
   padding: 0px 15px;
+  min-height: inherit;
 }
 
 .cardsHolder {
-  width: 100%;
-  height: calc(100% - 40px);
   display: flex;
+  flex: 1;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
@@ -48,6 +49,7 @@
 }
 
 .cardTitle {
+  margin-top: 10px;
   position: relative;
   font-size: calc(25px + 10 * (100% / 350));
   font-weight: 600;

@@ -19,7 +19,8 @@ export default () => {
     if (user) {
       const res = await axios.get(`/team`)
       .then(response => {
-        return response.data;
+        console.log(response.data.subnodes)
+        return response.data.subnodes;
       })
       if (!referalsArray.length && res.length) {
         setReferalsArray([res]);

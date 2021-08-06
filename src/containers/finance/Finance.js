@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Paper, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import HistoryTransaction from "../../component/historyTransaction/HistoryTransaction";
 import s from "./Finance.module.css";
@@ -12,8 +11,6 @@ export default function Finance() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formMode, setFormMode] = useState('');
   const [form, setForm] = useState({});
-
-  const currUser = useSelector(({ user }) => user);
 
   const dialogFormTitle = () => {
     switch(formMode) {
@@ -78,7 +75,6 @@ export default function Finance() {
             form={form}
             setForm={setForm}
             onClose={onClose}
-            user={currUser}
           />
         </FormModal>
       </div>

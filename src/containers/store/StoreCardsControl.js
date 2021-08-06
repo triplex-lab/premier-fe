@@ -13,20 +13,16 @@ export default ({packages, setCurrPackage, setIsModalOpen}) => {
     setCurrPackage(packageTitle.toLowerCase());
   }
 
-  if (packages && staticData) {
-    const cardTitles = Object.keys(packages);
-
-    return cardTitles.map((title, index) => {
-      let [pack] = staticData.filter(card => card.title.toLocaleLowerCase() === title);
-
+  if (packages) {
+    return packages.map((pack, index) => {
       return <StoreCard
         upgrade={packagesCount !== 4}
-        onSetPack={() => setPackage(pack.title)}
+        onSetPack={() => setPackage(pack.name)}
         key={index}
-        cardTitle={pack.title}
-        cardPackPrice={`${packages[title]} y.e.`}
-        licenseTerm={Number(pack.licenseTerm) ? `${pack.licenseTerm} месяцев` : 'Безлимит'}
-        img={pack.img}
+        cardTitle={pack.name}
+        cardPackPrice={`${pack.price} y.e.`}
+        licenseTerm={pack.expireTime > 0 ? `${Math.floor(pack.expireTime / (60 * 60 * 24 * 30 * 1000))} месяцев` : 'Безлимит'}
+        img={staticData[index].img}
         quantity={pack.quantity}
       />
     });
