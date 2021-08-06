@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -7,13 +7,14 @@ import TextField from "@material-ui/core/TextField";
 import s from "./FormSignin.module.css";
 import { signIn } from "../../../redux/auth/authOperations";
 import Notification from "../../notification/Notification";
+import axios from 'axios';
 
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),
-  password: yup
+  pwd: yup
     .string("Enter your password")
     .min(1, "Password should be of minimum 8 characters length")
     .required("Password is required"),
@@ -34,7 +35,7 @@ export default function FormSignin() {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      pwd: "",
     },
     validationSchema: validationSchema,
     onSubmit: funSub,
@@ -57,14 +58,14 @@ export default function FormSignin() {
       <TextField
         fullWidth
         variant="outlined"
-        id="password"
-        name="password"
+        id="pwd"
+        name="pwd"
         label="Password"
         type="password"
-        value={formik.values.password}
+        value={formik.values.pwd}
         onChange={formik.handleChange}
-        error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
+        error={formik.touched.pwd && Boolean(formik.errors.pwd)}
+        helperText={formik.touched.pwd && formik.errors.pwd}
       />
       <Button color="primary" variant="contained" fullWidth type="submit">
         Войти

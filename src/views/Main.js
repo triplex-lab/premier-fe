@@ -18,8 +18,10 @@ export default function Main(props) {
   const { match } = props;
   const [isMobileMode, setIsMobileMode] = useState(true);
   const token = useSelector(({ auth }) => auth.token);
+  const user = useSelector(({user}) => user);
+  console.log(user)
   const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(async () => {
     dispatch(getCurrentUser());
   }, [token]);
   return (

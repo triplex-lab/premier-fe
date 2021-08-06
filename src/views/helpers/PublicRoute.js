@@ -11,7 +11,7 @@ const PublicRoute = ({
       {...routeProps}
       render={(props) =>
         isAuthenticated ? (
-          <Redirect to="/dashboard/team" />
+          <Redirect to="/dashboard" />
         ) : (
           <Component {...props} />
         )
