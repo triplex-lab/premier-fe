@@ -33,7 +33,8 @@ export default class ReferalsBinaryTree extends React.Component {
         this.setState({
           referals: [...res.map(referal => {
             return {
-              ...referal,
+              id: referal.id,
+              data: referal,
               childrens: [],
             }
           })],

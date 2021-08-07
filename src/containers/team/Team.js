@@ -23,6 +23,11 @@ export default () => {
     })
   }
 
+  
+  const createName = (firstName, lastName) => {
+    return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
+  }
+
   return <div className={s.root}>
     <Button
       onClick={changeModeHandler}
@@ -32,17 +37,19 @@ export default () => {
       Change mode {mode}
     </Button>
     <Paper className={s.currUser}>
-      {currUser.id && <span className={s.currUserName}>
-        <div className={s.circle}></div>
-        userID: {currUser.id}
+      {currUser && <span className={s.currUserName}>
+        <div className={s.circle}>
+          {currUser.firstname[0].toUpperCase()}
+        </div>
+        {createName(currUser.firstname, currUser.lastname)}
       </span>}
-      {currUser.email && <span className={s.currUserEmail}>Email: {currUser.email}</span>}
+      {currUser.email && <span className={s.currUserEmail}><b>email:</b> {currUser.email}</span>}
     </Paper>
     <div className={s.referalsSection}>
 
       {mode === 'binaryTree' && <ReferalsBinaryTree />}
 
-      {mode === 'linear' && <LinearReferals userID={currUser.id}/>}
+      {mode === 'linear' && <LinearReferals />}
 
     </div>
   </div>

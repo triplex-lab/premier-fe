@@ -35,7 +35,7 @@
   align-items: center;
 }
 
-.referal {
+/*.referal {
   width: 150px;
   height: 200px;
   padding: 15px;
@@ -44,7 +44,7 @@
   justify-content: space-around;
   align-items: center;
   margin: 20px;
-}
+}*/
 
 .referalName {
   max-width: 140px;
@@ -77,33 +77,18 @@
   flex-direction: row;
 }
 
-.currUser {
-  display: flex;
-  flex-direction: column;
-  min-height: 150px;
-  min-width: 150px;
-  justify-content: center;
-  padding: 15px;
-  margin: 30px 0px;
-}
-
-.currUserName, .linearUserName {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.linearUserName, .currUserName, .referalName {
   margin-bottom: 7px;
   font-size: 19px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  font-weight: bold;
+  color: #ec860d;
 }
 
-.currUserEmail, .linearUserEmail {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 7px;
+.linearUserEmail, .currUserEmail, .referalEmail {
   font-size: 19px;
 }
 
@@ -111,7 +96,12 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #bdbdbd;
+  border: 1px solid #bdbdbd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  margin-right: 10px;
 }
 
 .linearUser {
@@ -119,10 +109,10 @@
   min-width: 200px;
 }
 
-.linearUserContainer {
+.linearUserContainer, .referal, .currUser {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   padding: 15px;
   margin: 20px;
 }

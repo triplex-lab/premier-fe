@@ -31,11 +31,24 @@ const Referal = (referal, referals, setReferals, childrens, id) => {
     setReferals(updatedReferals);
   }
 
+  const createName = (firstName, lastName) => {
+    return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
+  }
+
+  console.log(referal)
+
   return <div className={s.referalsContainer}>
     <Paper className={s.referal}>
-      {id && <span className={s.referalName}>{id}</span>}
-      {referal.email && <span className={s.referalEmail}>{referal.email}</span>}
+      {/*{id && <span className={s.referalName}>{id}</span>}
+      {referal.email && <span className={s.referalEmail}>{referal.email}</span>}*/}
+      {referal.user && <span className={s.linearUserName}>
+        <div className={s.circle}>
+          {referal.user.firstname[0].toUpperCase()}
+        </div>
+        {createName(referal.user.firstname, referal.user.lastname)}
+      </span>}
       {<Button
+        disabled
         variant="outlined"
         color="primary"
         onClick={() => addReferal(id)}
@@ -43,6 +56,7 @@ const Referal = (referal, referals, setReferals, childrens, id) => {
         Update
       </Button>}
       {<Button
+        disabled
         className={s.removeButton}
         variant="outlined"
         onClick={() => removeReferal(id)}

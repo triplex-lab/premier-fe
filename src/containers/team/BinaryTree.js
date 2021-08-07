@@ -17,18 +17,13 @@ export class BinaryTree {
       if (node.childrens) {
         return new ReferalNode(
           node.id,
-          {
-            email: node.email,
-            info: node.info,
-          },
-          [...BinaryTree.convertToNodes(node.childrens)]);
+          node.data,
+          [...BinaryTree.convertToNodes(node.childrens)]
+        );
       }
       return new ReferalNode(
         node.id,
-        {
-          email: node.email,
-          info: node.info,
-        },
+        node.data,
         []
       );
     })

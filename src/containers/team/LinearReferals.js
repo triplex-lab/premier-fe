@@ -31,7 +31,9 @@ export default () => {
     }
   }
 
-  console.log({referalsArray})
+  const createName = (firstName, lastName) => {
+    return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
+  }
 
   useEffect(() => {
     getReferalsByUserId();
@@ -43,10 +45,13 @@ export default () => {
         return <div key={referal.id} className={s.linearUser}>
           <Paper className={s.linearUserContainer}>
             {referal.id && <span className={s.linearUserName}>
-              <div className={s.circle}></div>
-              userID: {referal.id}
+              <div className={s.circle}>
+                {referal.user && referal.user.firstname[0].toUpperCase()}
+              </div>
+             {referal.user && createName(referal.user.firstname, referal.user.lastname)}
             </span>}
-            {referal.email && <span className={s.linearUserEmail}>Email: {referal.email}</span>}
+            {referal.user && <span className={s.linearUserEmail}><b>email:</b> {referal.user.email}</span>}
+            {referal.user && <span className={s.linearUserEmail}><b>qualify:</b> {referal.user.qual}</span>}
           </Paper>
         </div>
       })}
