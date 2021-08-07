@@ -228,17 +228,17 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] =  React.useState([]);
 
+  const getRows = async () => {
+    await axios.get('/finance')
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err))
+  }
+
   useEffect(async () => {
     if (!rows.length) {
-      const res = await axios.get('/finance')
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err))
-        //if (res.data) {
-        //  setRows(res.data)
-        //}
-      return null;
+      getRows();
     }
   }, []);
 
