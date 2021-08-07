@@ -29,7 +29,6 @@ export default function Main(props) {
         setIsMobileMode={setIsMobileMode}
       />
       <Bar
-        isMobileMode={isMobileMode}
         setIsMobileMode={setIsMobileMode}
       />
       <div className={s.layout}>

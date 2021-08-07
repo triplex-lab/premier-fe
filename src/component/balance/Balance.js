@@ -7,8 +7,8 @@ export default function Balance() {
   return (
     <div className={s.root}>
       <p className={s.number}>
-        <AccountBalanceWalletIcon className={s.icon} />
-        {number}
+        <span className={s.icon}><AccountBalanceWalletIcon fontSize='inherit' color='inherit'/></span>
+        {number} y.e.
       </p>
     </div>
   );
