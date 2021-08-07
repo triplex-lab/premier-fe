@@ -9,39 +9,55 @@
 }
 
 .referalsSection {
-  width: 90%;
+  width: 100%;
   align-self: center;
-  height: calc(100vh - 180px);
-  overflow-y: auto;
+  height: 100%;
 }
 
 .referalsRow {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
+  width: fit-content;
   max-width: 100%;
+  overflow-x: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
 }
 
-.referal {
-  min-width: 150px;
-  min-height: 130px;
-  max-width: 200px;
-  max-height: 200px;
+.linearReferalsRow {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/*.referal {
+  width: 150px;
+  height: 200px;
   padding: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   margin: 20px;
-}
+}*/
 
 .referalName {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 7px;
   font-size: 19px;
 }
 
 .referalEmail {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 7px;
   font-size: 19px;
 }
@@ -51,8 +67,52 @@
 }
 
 .referalsContainer {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.referalChildrens {
+  display: flex;
+  flex-direction: row;
+}
+
+.linearUserName, .currUserName, .referalName {
+  margin-bottom: 7px;
+  font-size: 19px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #ec860d;
+}
+
+.linearUserEmail, .currUserEmail, .referalEmail {
+  font-size: 19px;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #bdbdbd;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.linearUser {
+  max-height: 200px;
+  min-width: 200px;
+}
+
+.linearUserContainer, .referal, .currUser {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  margin: 20px;
 }

@@ -22,6 +22,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import axios from 'axios';
 import moment from 'moment';
+import { useEffect } from "react";
 
 
 function descendingComparator(a, b, orderBy) {
@@ -47,28 +48,26 @@ function stableSort(array, comparator) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
+  console.log(stabilizedThis)
   return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
   {
-    id: "date",
+    id: "createdAt",
     numeric: false,
     disablePadding: true,
     label: "Дата",
   },
-  { id: "comment", numeric: true, disablePadding: false, label: "Тип" },
-  { id: "money", numeric: true, disablePadding: false, label: "Сумма" },
+  { id: "info", numeric: true, disablePadding: false, label: "Тип" },
+  { id: "amount", numeric: true, disablePadding: false, label: "Сумма" },
 ];
 
 function EnhancedTableHead(props) {
   const {
     classes,
-    onSelectAllClick,
     order,
     orderBy,
-    numSelected,
-    rowCount,
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
@@ -79,12 +78,6 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          {/* <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all desserts" }}
-          /> */}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -196,6 +189,7 @@ EnhancedTableToolbar.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
+    marginTop: 40,
   },
   paper: {
     width: "100%",
@@ -220,26 +214,29 @@ const useStyles = makeStyles((theme) => ({
 export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("comment");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] =  React.useState([]);
 
-  if (!rows.length) {
-    (async function() {
-      const res = await axios.get('http://localhost:5000/api/user/1/operations')
-        //.then(res => {
-        //  setRows(res.data)
-        //})
-        //.catch(err => console.log(err))
-        if (res.data) {
-          setRows(res.data)
+  const getRows = async () => {
+    await axios.get('/finance')
+      .then(res => {
+        console.log(res.data);
+        if (res.data && res.data.moneyTxs) {
+          setRows(res.data.moneyTxs)
         }
-    })()
-    return null;
+      })
+      .catch(err => console.log(err))
   }
+
+  useEffect(() => {
+    if (!rows.length) {
+      getRows();
+    }
+  }, []);
 
   const getCalendarDate = (date) => {
     return moment(date).calendar();
@@ -249,35 +246,6 @@ export default function EnhancedTable() {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((row) => row.date);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -293,10 +261,8 @@ export default function EnhancedTable() {
     setDense(event.target.checked);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -314,7 +280,6 @@ export default function EnhancedTable() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -322,17 +287,15 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      // onClick={(event) => handleClick(event, row.name)}
-                      // role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.date + index}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -347,15 +310,14 @@ export default function EnhancedTable() {
                         scope="row"
                         padding="none"
                       >
-                        {getCalendarDate(row.date)}
+                        {getCalendarDate(row.createdAt)}
                       </TableCell>
-                      <TableCell align="right">{row.comment}</TableCell>
-                      {/* <TableCell align="right">{row.fat}</TableCell> */}
+                      <TableCell align="right">{row.info}</TableCell>
                       <TableCell align="right">
-                        {row.fat > 0 ? (
-                          <span style={{ color: "green" }}>{row.money}</span>
+                        {row.amount > 0 ? (
+                          <span style={{ color: "green" }}>{row.amount}</span>
                         ) : (
-                          <span style={{ color: "red" }}>{row.money}</span>
+                          <span style={{ color: "red" }}>{row.amount}</span>
                         )}
                       </TableCell>
                     </TableRow>

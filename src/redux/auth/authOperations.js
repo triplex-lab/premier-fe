@@ -1,34 +1,38 @@
 import axios from "axios";
 import authAction from "./authActions";
-export const setToken = (token) =>
-  (axios.defaults.headers.common["Authorization"] = token);
 
-export const clearToken = () =>
-  (axios.defaults.headers.common["Authorization"] = "");
+
+export const setToken = (token) => {
+  axios.defaults.headers.common["Authorization"] = token;
+  return;
+}
+
+export const clearToken = () => {
+  axios.defaults.headers.common["Authorization"] = '';
+};
 
 export const signIn = (userData) => async (dispatch) => {
   dispatch(authAction.signinRequest());
   const statusCode = await axios
-    .post("/api/auth/signin", userData)
+    .post("/login", userData)
     .then((response) => {
-      setToken(response.data.token);
-      dispatch(authAction.signinSuccess(response.data));
+      setToken(response.data.role)
+      axios.defaults.withCredentials = true;
+      dispatch(authAction.signinSuccess({
+        token: response.data.role,
+      }));
     })
     .catch((error) => {
-      return { status: error.response.status, message: error.response.data };
+      return { status: '500', message: 'Неверный логин или пароль' };
     });
+
   return statusCode;
 };
 
 export const signUp = (userData) => async (dispatch) => {
   dispatch(authAction.signupRequest());
-  const data = {
-    email: userData.email,
-    password: userData.password,
-    ref: userData.ref,
-  };
   return await axios
-    .post("/api/auth/signUp", data)
+    .post("/register", userData)
     .then(({ status }) => {
       return { status };
     })
@@ -40,7 +44,7 @@ export const signUp = (userData) => async (dispatch) => {
 export const signOut = (token) => (dispatch) => {
   dispatch(authAction.signoutRequest());
   axios
-    .delete("/api/auth/signOut", { token })
+    .delete("/signOut", { token })
     .then(() => {
       dispatch(authAction.signoutSuccess());
     })

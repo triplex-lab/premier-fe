@@ -1,0 +1,16 @@
+.textArea {
+  outline: none;
+  border: none;
+}
+
+.dialogContent {
+  color: #ec860d !important;
+  display: flex;
+  align-items: center;
+  min-width: 400px;
+  justify-content: space-between;
+}
+
+.dialogActions {
+  color: #ec860d !important;
+}

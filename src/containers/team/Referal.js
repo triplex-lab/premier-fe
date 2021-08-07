@@ -1,75 +1,79 @@
 import React from 'react';
 import { Button, Paper } from '@material-ui/core';
 import axios from 'axios';
-import _ from 'lodash';
 
 import s from './Team.Module.css';
+import { BinaryTree } from './BinaryTree';
 
 
-export default class Referal extends React.Component {
+const Referal = (referal, referals, setReferals, childrens, id) => {
 
-  constructor(props) {
-    super(props);
+  if (!referal) {
+    return null;
+  }
 
-    this.state = {
-      controlButtonsMode: 'forward',
-      referers: [],
+  const addReferal = async (id) => {
+    let updatedReferals = [];
+    const res = await axios.get(`http://localhost:5000/api/user/${id}/ref`)
+      .then(response => {
+        return response.data;
+      })
+      .then(updatedReferals => updatedReferals.map(updatedReferal => new Object({...updatedReferal, childrens: []})));
+
+    if (res.length) {
+      updatedReferals = BinaryTree.updater(id, [...referals], res);
+      setReferals(updatedReferals);
     }
-
-    this.setReferalsArray = props.setReferalsArray;
-    this.referalsArray = props.referalsArray;
   }
 
-  updateReferers = async (id) => {
-    await axios.get(`http://localhost:5000/api/user/${id}/ref`)
-      .then(res => {
-        if (res.data.length) {
-          this.setReferalsArray((prevState) => [...prevState, [...res.data]]);
-          this.setState(
-            {controlButtonsMode: 'backward', referers: [...res.data],}
-          );
-        }
-      })
+  const removeReferal = async (id) => {
+    let updatedReferals = BinaryTree.updater(id, [...referals], []);
+    setReferals(updatedReferals);
   }
 
-  removeReferals = () => {
-    let filteredArray = [];
-  
-    this.setReferalsArray((prevState) => {
-      prevState.forEach(array => {
-        let filtered = array.filter(item => !this.state.referers.includes(item));
-        if (filtered.length) {
-          filteredArray.push(filtered);
-        }
-      })
-      return filteredArray;
-    })
-    this.setState({controlButtonsMode: 'forward'})
+  const createName = (firstName, lastName) => {
+    return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
   }
 
-  render() {
-    const { controlButtonsMode } = this.state;
-    const { referal } = this.props;
+  console.log(referal)
 
-    return <Paper className={s.referal}>
-      <span className={s.referalName}>{referal.id && referal.id}</span>
-      <span className={s.referalEmail}>{referal.email && referal.email}</span>
-      {this.referalsArray && <Button
+  return <div className={s.referalsContainer}>
+    <Paper className={s.referal}>
+      {/*{id && <span className={s.referalName}>{id}</span>}
+      {referal.email && <span className={s.referalEmail}>{referal.email}</span>}*/}
+      {referal.user && <span className={s.linearUserName}>
+        <div className={s.circle}>
+          {referal.user.firstname[0].toUpperCase()}
+        </div>
+        {createName(referal.user.firstname, referal.user.lastname)}
+      </span>}
+      {<Button
+        disabled
         variant="outlined"
         color="primary"
-        disabled={controlButtonsMode === 'backward'}
-        onClick={() => this.updateReferers(referal.id)}
+        onClick={() => addReferal(id)}
       >
         Update
       </Button>}
-      {this.referalsArray && <Button
+      {<Button
+        disabled
         className={s.removeButton}
         variant="outlined"
-        disabled={controlButtonsMode === 'forward'}
-        onClick={() => this.removeReferals()}
+        onClick={() => removeReferal(id)}
       >
         disUpdate
       </Button>}
-  </Paper>
-  }
+    </Paper>
+    <div className={s.referalChildrens}>
+        {childrens.length > 0 && childrens.map(children => {
+          return Referal(children.data, referals, setReferals, children.childrens, children.id)
+        })}
+    </div>
+  </div>
+}
+
+
+
+export default ({referal, referals, setReferals, childrens, id}) => {
+  return Referal(referal, referals, setReferals, childrens, id);
 }

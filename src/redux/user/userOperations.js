@@ -4,9 +4,9 @@ import userAction from "./userActions";
 export const getCurrentUser = () => async (dispatch) => {
   dispatch(userAction.getCurrentUserRequest());
   await axios
-    .get("/api/user")
+    .get("/dashboard")
     .then((response) => {
-      dispatch(userAction.getCurrentUserSuccess(response.data));
+      dispatch(userAction.getCurrentUserSuccess(response.data.currentUser));
     })
     .catch((error) => {
       dispatch(userAction.getCurrentUserError(error));

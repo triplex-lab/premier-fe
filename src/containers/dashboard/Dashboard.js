@@ -1,13 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CircularProgress, Slider, Button, withStyles, Table, TableRow, TableCell } from "@material-ui/core";
 import moment from 'moment';
+import axios from 'axios';
 
 import s from './Dashboard.Module.css';
 
 
 export default function Dashboard() {
-  //const [userId, setUserId] = useState(null);
-  //const currUser = useSelector(({ user }) => user);
+
+  const [dashboard, setDashboard] = useState(null);
+  const [statsPeriod, setStatsPerios] = useState('week');
+
+  const getDashboard = async () => {
+    axios.get('/dashboard')
+      .then(res => {
+        if (res.data) {
+          setDashboard(res.data)
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+
+  const statsPeriodNamer = (period) => {
+    switch(period) {
+      case 'week':
+      return 'Неделя';
+
+      case 'month':
+      return 'Месяц';
+
+      case 'total':
+      return 'Всего';
+
+      case 'НЕДЕЛЯ':
+      return 'week';
+
+      case 'МЕСЯЦ':
+      return 'month';
+
+      case 'ВСЕГО':
+      return 'total';
+    }
+  };
+
+  const statsPeriodHandler = (e) => {
+    setStatsPerios(statsPeriodNamer(e.target.innerText));
+  }
 
   class DateControl {
     constructor(props) {
@@ -43,14 +83,11 @@ export default function Dashboard() {
   const progress = daysCounter.getDimension();
   const finaceWeekEnd = daysCounter.getFinaceWeekCount();
 
-  //const getPackage = async (user) => {
-  //  const res = await axios.get(`http://localhost:5000/api/user/1/upgrades`)
-  //    .then(response => response)
-  //    .catch(error => error)
-
-  //  console.log(res)
-  //}
-  //getPackage(currUser)
+  const statsButtons = [
+    'week',
+    'month',
+    'total',
+  ]
 
   const marks = [
     {
@@ -106,7 +143,6 @@ export default function Dashboard() {
       width: 8,
       backgroundColor: '#fff',
       border: '2px solid currentColor',
-      //marginTop: ,
       marginLeft: -4,
       borderRadius: '50%',
       '&:focus, &:hover, &$active': {
@@ -126,15 +162,24 @@ export default function Dashboard() {
     },
   })(Slider);
 
+  useEffect(() => {
+    getDashboard();
+  }, [])
+
+  if (!dashboard) {
+    return null;
+  }
+  console.log({dashboard})
+
   return <div className={s.root}>
       <div className={s.leftContainer}>
         <div className={s.qualification}>
           <span className={s.qualificationTitle}>Квалификация</span>
-          <span className={s.qualificationValue}>NO QUALIFY</span>
+          <span className={s.qualificationValue}>{dashboard.qualSt.toUpperCase()}</span>
         </div>
         <div className={s.userInfo}>
-          <div className={s.userContainer}>Горпинсенко Максим</div>
-          <span className={s.userProfit}>Доходы за месяц 500 y.e.</span>
+          <div className={s.userContainer}>{dashboard.inviterFullName}</div>
+          <span className={s.userProfit}>Доходы за месяц {dashboard.stats.month.total} y.e.</span>
         </div>
       </div>
 
@@ -144,12 +189,12 @@ export default function Dashboard() {
             До конца финансовой недели осталось:
           </span>
           <div className={s.financeTermValue}>
-            {finaceWeekEnd} дней
+            {dashboard.timeBounds.weekDaysLeft} дней
           </div>
         </div>
         <div className={s.statusLeft}>
           <span className={s.statusLeftTitle}>Подтверждение статуса:</span>
-          <span className={s.statusLeftValue}>Осталось 28 дней</span>
+          <span className={s.statusLeftValue}>Осталось {dashboard.timeBounds.statusDaysLeft} дней</span>
         </div>
         <div className={s.myQualification}>
           <span className={s.myQualificationTitle}>Моя квалификация</span>
@@ -165,7 +210,7 @@ export default function Dashboard() {
           />
           <div className={s.pseudoProgress}></div>
           <div className={s.progressInfo}>
-            <div className={s.progressTitle}>No Qualify</div>
+            <div className={s.progressTitle}>{dashboard && dashboard.qualSt}</div>
             <div className={s.progressValue}>{progress}%</div>
           </div>
         </div>
@@ -180,47 +225,52 @@ export default function Dashboard() {
             marks={marks}
           />
         </div>
-        {/*<div className={s.rangeInfo}></div>*/}
       </div>
 
       <div className={s.rightContainer}>
         <span className={s.rightContainerTitle}>Статистика</span>
         <div className={s.buttonsControl}>
-          <Button variant="outlined" color="inherit" className={s.actionButton}>Неделя</Button>
-          <Button variant="outlined" color="inherit" className={s.actionButton}>Месяц</Button>
-          <Button variant="outlined" color="inherit" className={s.actionButton}>Всего</Button>
+          {statsButtons.map(name => {
+            return <Button
+              variant="outlined"
+              color="inherit"
+              className={s.actionButton}
+              onClick={statsPeriodHandler}
+            >
+              {statsPeriodNamer(name)}
+            </Button>
+          })}
         </div>
         <Table className={s.table}>
-          <TableRow className={s.tableRow}>
+          <TableRow>
             <TableCell className={s.tableCell}>Всего заработано</TableCell>
-            <TableCell className={s.styledTableCell}>0.00 y.e.</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].total} y.e.</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Start бонус</TableCell>
-            <TableCell className={s.styledTableCell}>0.00 y.e.</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].start} y.e.</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Fixed бонус</TableCell>
-            <TableCell className={s.styledTableCell}>0.00 y.e.</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].fixed} y.e.</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Binary бонус</TableCell>
-            <TableCell className={s.styledTableCell}>0.00 y.e.</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].binary} y.e.</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Check to check</TableCell>
-            <TableCell className={s.styledTableCell}>0.00 y.e.</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].check} y.e.</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Личных партнёров</TableCell>
-            <TableCell className={s.styledTableCell}>0</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].personalPartners}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell className={s.tableCell}>Партнёров в команде</TableCell>
-            <TableCell className={s.styledTableCell}>0</TableCell>
+            <TableCell className={s.styledTableCell}>{dashboard.stats[statsPeriod].teamPartners}</TableCell>
           </TableRow>
         </Table>
-        {/*//table*/}
       </div>
     </div>
 }

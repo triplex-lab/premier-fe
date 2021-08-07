@@ -19,7 +19,7 @@ export default function Main(props) {
   const [isMobileMode, setIsMobileMode] = useState(true);
   const token = useSelector(({ auth }) => auth.token);
   const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(async () => {
     dispatch(getCurrentUser());
   }, [token]);
   return (
@@ -29,7 +29,6 @@ export default function Main(props) {
         setIsMobileMode={setIsMobileMode}
       />
       <Bar
-        isMobileMode={isMobileMode}
         setIsMobileMode={setIsMobileMode}
       />
       <div className={s.layout}>
