@@ -19,7 +19,6 @@ export default ({
 
   let cardClass;
   let cardPicture;
-  console.log(upgrade )
 
   const robotsQuantity = quantity > 1 ? `${quantity} РОБОТА` : `${quantity} РОБОТ`;
 
@@ -42,19 +41,19 @@ export default ({
   })()
 
   return <div onClick={onSetPack} className={s.card}>
-    {upgrade ?
+    {/*{upgrade ?
       <div className={s.cardHeader}>
         <span className={s.headerLeftItem}>Upgrade</span>
         <img className={s.chevronRight} src={chevronRight} />
         <span className={s.headerRightItem}>{cardTitle}</span>
         <span className={s.cardStyledSubtitle}>пакет</span>
       </div>
-      :
+      :*/}
       <div className={s.cardTitle}>
-        {cardTitle}
+        <span className={s.cardTitleHolder}>{cardTitle}</span>
         <span className={s.cardSubtitle}>пакет</span>
       </div>
-    }
+    {/*}*/}
 
     <div className={s.infoSection}>
       <span className={s.cardPrice}>{cardPackPrice}</span>

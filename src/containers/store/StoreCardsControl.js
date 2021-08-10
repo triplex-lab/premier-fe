@@ -6,17 +6,17 @@ import staticData from './staticData';
 
 export default ({packages, setCurrPackage, setIsModalOpen}) => {
 
-  const packagesCount = Object.keys(packages).length;
+  //const packagesCount = Object.keys(packages).length;
 
   const setPackage = (packageTitle) => {
     setIsModalOpen(true);
-    setCurrPackage(packageTitle.toLowerCase());
+    setCurrPackage(packageTitle);
   }
 
-  if (packages) {
+  if (packages.length > 0) {
     return packages.map((pack, index) => {
       return <StoreCard
-        upgrade={packagesCount !== 4}
+        //upgrade={packagesCount !== 4}
         onSetPack={() => setPackage(pack.name)}
         key={index}
         cardTitle={pack.name}

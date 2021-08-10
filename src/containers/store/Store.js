@@ -49,15 +49,17 @@ export default function Store() {
     setIsLoading(true);
     const [currPack] = packages.filter((pack, index) => pack.name === currPackageName);
     console.log(currPack)
+    if (!currPack) {
+      return;
+    }
     await axios.post(`http://localhost:5000/order/buy`, {
-      packId: currPack.id,
+      pack: currPack.id,
     })
       .then(response => {
         if (response.data) {
           getPackages();
           setIsModalOpen(false);
           setIsLoading(false)
-          console.log(response);
         }
       })
       .catch(error => {
@@ -82,7 +84,7 @@ export default function Store() {
           setIsModalOpen={setIsModalOpen}
         />
 
-        {packages && <Button
+        {packages.length > 0 && <Button
           onClick={() => setIsModalOpen(true)}
           variant={'outlined'}
           color={'inherit'}

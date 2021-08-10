@@ -15,22 +15,36 @@ export default () => {
   const getLeg = async () => {
     await axios.get('/dashboard')
       .then(res => {
-        console.log(res)
         if (res.data && res.data.legInfo) {
           setLeg(res.data.legInfo)
+          setCurrLeg(res.data.legInfo.setting)
         }
       })
       .catch(err => console.log(err));
   }
 
   useEffect(() => {
-    if (!leg) {
+    if (!leg || !currLeg) {
       getLeg();
     }
   }, [])
 
   if (!leg) {
     return <p>Elevation</p>;
+  }
+
+  const setLegHandler = (legParam) => {
+    if (legParam === currLeg) {
+      return;
+    } else {
+      axios.get(`/setLeg?leg=${legParam}`)
+        .then(res => {
+          if (res.status === 200 && res.data) {
+            setCurrLeg(legParam)
+          }
+        })
+        .catch(err => console.log(err))
+    } 
   }
 
   const activeSideStyle = {
@@ -44,16 +58,16 @@ export default () => {
   }
 
   return <div className={s.elevation}>
-    <div onClick={() => setCurrLeg('left')} className={s.elevationItem}>
+    <div onClick={() => setLegHandler('left')} className={s.elevationItem}>
     <div style={currLeg === 'left' ? activeSideStyle : {}} className={s.iconHolder}>
       <ChevronLeftIcon color='inherit' fontSize='inherit'/>
     </div>
       <b>B: {leg.left.total}</b>
     </div>
-    <div style={currLeg === 'auto' ? activeStyle : {}} onClick={() => setCurrLeg('auto')} className={s.centerItem}>
+    <div style={currLeg === 'auto' ? activeStyle : {}} className={s.centerItem}>
       A
     </div>
-    <div onClick={() => setCurrLeg('right')} className={s.elevationItem}>
+    <div onClick={() => setLegHandler('right')} className={s.elevationItem}>
       <b>B: {leg.right.total}</b>
       <div style={currLeg === 'right' ? activeSideStyle : {}} className={s.iconHolder}>
         <ChevronRightIcon color='inherit' fontSize='inherit'/>
