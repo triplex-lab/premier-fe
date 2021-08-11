@@ -1,50 +1,59 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Notification from "../notification/Notification";
-import s from "./ChangePass.module.css";
 import { Container } from "@material-ui/core";
+import axios from 'axios';
+
+import s from "./ChangePass.module.css";
+import Notification from "../notification/Notification";
+
 
 const validationSchema = yup.object({
-  currentPassword: yup
+  curPassword: yup
     .string("Enter your password")
     .min(1, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  password: yup
+  newPassword: yup
     .string("Enter your password")
     .min(1, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  confirmPassword: yup
+    newPassword2: yup
     .string("Enter your password")
     .min(1, "Password should be of minimum 8 characters length")
-    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match")
     .required("Password is required"),
 });
 
-const setChangePass = (data) => {
-  console.log(data);
-};
-
 export default function ChangePass() {
-  const dispatch = useDispatch();
 
   const [msg, setMsg] = useState("");
   const [status, setstatus] = useState("");
 
-  const funSub = async (data) => {
-    const statusCode = await dispatch(setChangePass(data));
-    setMsg(statusCode.message);
-    setstatus(statusCode.status);
+  const funSub = async () => {
+    await axios.post('/settings', {
+      ...formik.values,
+      tab: 'pwd'
+    })
+      .then(res => {
+        if (res.status === 201) {
+          console.log(res)
+          setMsg('Успешная операция');
+          setstatus(res.status);
+        }
+      })
+      .catch(() => {
+        setMsg('Ошибка, попробуйте позже');
+        setstatus(400);
+      })
   };
 
   const formik = useFormik({
     initialValues: {
-      currentPassword: "",
-      password: "",
-      confirmPassword: "",
+      curPassword: "",
+      newPassword: "",
+      newPassword2: "",
     },
     validationSchema: validationSchema,
     onSubmit: funSub,
@@ -57,50 +66,50 @@ export default function ChangePass() {
         <TextField
           fullWidth
           variant="outlined"
-          id="currentPassword"
-          name="currentPassword"
+          id="curPassword"
+          name="curPassword"
           label="Текущий пароль"
-          value={formik.values.currentPassword}
+          value={formik.values.curPassword}
           onChange={formik.handleChange}
           error={
-            formik.touched.currentPassword &&
-            Boolean(formik.errors.currentPassword)
+            formik.touched.curPassword &&
+            Boolean(formik.errors.curPassword)
           }
           helperText={
-            formik.touched.currentPassword && formik.errors.currentPassword
+            formik.touched.curPassword && formik.errors.curPassword
           }
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="password"
-          name="password"
+          id="newPassword"
+          name="newPassword"
           label="Пароль"
           type="password"
-          value={formik.values.password}
+          value={formik.values.newPassword}
           onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
+          error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+          helperText={formik.touched.newPassword && formik.errors.newPassword}
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="confirmPassword"
-          name="confirmPassword"
+          id="newPassword2"
+          name="newPassword2"
           label="Подтверждение пароля"
           type="password"
-          value={formik.values.confirmPassword}
+          value={formik.values.newPassword2}
           onChange={formik.handleChange}
           error={
-            formik.touched.confirmPassword &&
-            Boolean(formik.errors.confirmPassword)
+            formik.touched.newPassword2 &&
+            Boolean(formik.errors.newPassword2)
           }
           helperText={
-            formik.touched.confirmPassword && formik.errors.confirmPassword
+            formik.touched.newPassword2 && formik.errors.newPassword2
           }
         />
-        {status !== 200 ? (
-          <Button color="primary" variant="contained" fullWidth type="submit">
+        {status !== 201 ? (
+          <Button color="primary" variant="outlined" fullWidth type="submit">
             Сохранить
           </Button>
         ) : (

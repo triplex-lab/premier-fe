@@ -9,7 +9,7 @@ export default function Notification({ message = "", cleanMsg }) {
       setTimeout(() => {
         cleanMsg();
         setvisible(false);
-      }, 1000);
+      }, 2000);
     }
   }, [message]);
   return <>{visible && <p className={s.root}>{message}</p>}</>;

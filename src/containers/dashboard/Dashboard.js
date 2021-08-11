@@ -10,12 +10,14 @@ export default function Dashboard() {
 
   const [dashboard, setDashboard] = useState({});
   const [statsPeriod, setStatsPerios] = useState('week');
+  const [qualBvValue, setQualBvValue] = useState(0);
 
   const getDashboard = async () => {
     axios.get('/dashboard')
       .then(res => {
         if (res.data) {
           setDashboard(res.data)
+          setQualBvValue(res.data.qualBv)
         }
       })
       .catch(error => {
@@ -81,7 +83,6 @@ export default function Dashboard() {
 
   const daysCounter = new DateControl(new Date());
   const progress = daysCounter.getDimension();
-  const finaceWeekEnd = daysCounter.getFinaceWeekCount();
 
   const statsButtons = [
     'week',
@@ -123,7 +124,7 @@ export default function Dashboard() {
 
   const PrettoSlider = withStyles({
     root: {
-      color: '#52af77',
+      color: '#ec860d',
       height: 8,
       paddingRight: 5,
     },
@@ -150,7 +151,8 @@ export default function Dashboard() {
       },
     },
     valueLabel: {
-      left: 'calc(-50% + 4px)',
+      left: 'calc(-50% - 5px)',
+      top: '-60px'
     },
     track: {
       height: 8,
@@ -161,6 +163,25 @@ export default function Dashboard() {
       borderRadius: 4,
     },
   })(Slider);
+
+  const getAriaValueText = (value) => {
+    return `B: ${value}`
+  }
+
+  const rangeInfoRenderer = (array) => {
+    let count = 6;
+    let arr =array.map((type, index) => {
+      if (index < 8) {
+        return;
+      }
+      count += 2;
+      return <div className={s.rangeInfoContainer}>
+        <span>{type}</span>
+        <span style={{marginTop: "3px"}}>{dashboard.QualRequirements[count -index].req}</span>
+      </div>
+    })
+    return arr.filter(item => item !== undefined);
+  }
 
   useEffect(() => {
     getDashboard();
@@ -183,6 +204,10 @@ export default function Dashboard() {
       </div>
 
       <div className={s.centerContainer}>
+        <div className={s.bvIndicator}>
+          <span>{dashboard.qualStBvLeft} BV</span>
+          <span>до {dashboard.qualNextName.toUpperCase()}</span>
+        </div>
         <div className={s.financeTerm}>
           <span className={s.financeTermTitle}>
             До конца финансовой недели осталось:
@@ -216,15 +241,22 @@ export default function Dashboard() {
         <div className={s.range}>
           <PrettoSlider
             aria-labelledby="discrete-slider"
-            valueLabelDisplay="auto"
-            defaultValue={0}
+            valueLabelDisplay="on"
+            defaultValue={dashboard.qualBv}
             step={null}
             max={10000}
             min={0}
             marks={marks}
-            disabled
-            value={dashboard.qualBv}
+            valueLabelFormat={() => getAriaValueText(qualBvValue)}
+            value={qualBvValue}
+            onChange={(e, newVal) => {
+              console.log(newVal)
+              setQualBvValue(newVal)
+            }}
           />
+        </div>
+        <div className={s.rangeInfo}>
+          {rangeInfoRenderer(Object.keys(dashboard.QualType))}
         </div>
       </div>
 

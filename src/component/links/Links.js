@@ -1,40 +1,76 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect} from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { Container } from "@material-ui/core";
+import axios from 'axios';
+
 import Notification from "../../component/notification/Notification";
 import s from "./Links.module.css";
-import { Container } from "@material-ui/core";
 
-const setLinks = (data) => {
-  console.log(data);
-};
 
-export default function Links() {
-  const dispatch = useDispatch();
+export default () => {
 
   const [msg, setMsg] = useState("");
   const [status, setstatus] = useState("");
+  const [links, setLinks] = useState(
+    {
+      forex4you: '',
+      roboforex: '',
+      forexbox: '',
+      vk: '',
+      facebook: '',
+      instagram: '',
+    }
+  );
 
-  const funSub = async (data) => {
-    const statusCode = await dispatch(setLinks(data));
-    setMsg(statusCode.message);
-    setstatus(statusCode.status);
+  const getLinks = async () => {
+    await axios.get('/settings')
+      .then(res => {
+        if (res.data && res.data.settings) {
+          setLinks(res.data.settings);
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  const funSub = async () => {
+    await axios.post('/settings', {...formik.values, tab: 'links'})
+      .then(res => {
+        if (res.status === 201) {
+          console.log(res)
+          setMsg('Успешная операция');
+          setstatus(res.status);
+        }
+      })
+      .catch(() => {
+        setMsg('Ошибка, попробуйте позже');
+        setstatus(400);
+      })
   };
 
   const formik = useFormik({
     initialValues: {
-      Forex4You: "",
-      Roboforex: "",
-      ForexBox: "",
-      VK: "",
-      Facebook: "",
-      Instagram: "",
+      forex4you: links.forex4you,
+      roboforex: links.roboforex,
+      forexbox: links.forexbox,
+      vk: links.vk,
+      facebook: links.facebook,
+      instagram: links.instagram,
     },
     onSubmit: funSub,
   });
+
+  useEffect(() => {
+    getLinks();
+  }, [false])
+
+  if (!links) {
+    return null;
+  }
+
   return (
     <Container maxWidth="sm">
       <h3>Ссылки</h3>
@@ -43,71 +79,71 @@ export default function Links() {
         <TextField
           fullWidth
           variant="outlined"
-          id="Forex4You"
-          name="Forex4You"
-          label="Forex4You"
-          value={formik.values.Forex4You}
+          id="forex4you"
+          name="forex4you"
+          label="forex4you"
+          value={formik.values.forex4you}
           onChange={formik.handleChange}
-          error={formik.touched.Forex4You && Boolean(formik.errors.Forex4You)}
+          error={formik.touched.forex4you && Boolean(formik.errors.forex4you)}
           helperText="Партнёрская ссылка Forex4You"
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="Roboforex"
-          name="Roboforex"
-          label="Roboforex"
-          value={formik.values.Roboforex}
+          id="roboforex"
+          name="roboforex"
+          label="roboforex"
+          value={formik.values.roboforex}
           onChange={formik.handleChange}
-          error={formik.touched.Roboforex && Boolean(formik.errors.Roboforex)}
+          error={formik.touched.roboforex && Boolean(formik.errors.roboforex)}
           helperText="Партнёрская ссылка Roboforex"
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="ForexBox"
-          name="ForexBox"
-          label="ForexBox"
-          value={formik.values.ForexBox}
+          id="forexbox"
+          name="forexbox"
+          label="forexbox"
+          value={formik.values.forexbox}
           onChange={formik.handleChange}
-          error={formik.touched.ForexBox && Boolean(formik.errors.ForexBox)}
+          error={formik.touched.forexbox && Boolean(formik.errors.forexbox)}
           helperText="Партнёрская ссылка Forex Box"
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="VK"
-          name="VK"
-          label="VK"
-          value={formik.values.VK}
+          id="vk"
+          name="vk"
+          label="vk"
+          value={formik.values.vk}
           onChange={formik.handleChange}
-          error={formik.touched.VK && Boolean(formik.errors.VK)}
-          helperText={formik.touched.VK && formik.errors.VK}
+          error={formik.touched.vk && Boolean(formik.errors.vk)}
+          helperText={formik.touched.vk && formik.errors.vk}
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="Facebook"
-          name="Facebook"
-          label="Facebook"
-          value={formik.values.Facebook}
+          id="facebook"
+          name="facebook"
+          label="facebook"
+          value={formik.values.facebook}
           onChange={formik.handleChange}
-          error={formik.touched.Facebook && Boolean(formik.errors.Facebook)}
-          helperText={formik.touched.Facebook && formik.errors.Facebook}
+          error={formik.touched.facebook && Boolean(formik.errors.facebook)}
+          helperText={formik.touched.facebook && formik.errors.facebook}
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="Instagram"
-          name="Instagram"
-          label="Instagram"
-          value={formik.values.Instagram}
+          id="instagram"
+          name="instagram"
+          label="instagram"
+          value={formik.values.instagram}
           onChange={formik.handleChange}
-          error={formik.touched.Instagram && Boolean(formik.errors.Instagram)}
-          helperText={formik.touched.Instagram && formik.errors.Instagram}
+          error={formik.touched.instagram && Boolean(formik.errors.instagram)}
+          helperText={formik.touched.instagram && formik.errors.instagram}
         />
         {status !== 200 ? (
-          <Button color="primary" variant="contained" fullWidth type="submit">
+          <Button color="primary" variant="outlined" fullWidth type="submit">
             Сохранить
           </Button>
         ) : (

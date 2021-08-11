@@ -368,3 +368,8 @@ template {
 [hidden] {
   display: none;
 }
+
+.PrivateValueLabel-circle-10{
+  width: 50px !important;
+  height: 50px !important;
+}

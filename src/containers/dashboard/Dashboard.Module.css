@@ -24,6 +24,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  position: relative;
 }
 
 .rightContainer {
@@ -36,6 +37,33 @@
   justify-content: flex-start;
   align-items: flex-start;
   padding-right: 2%;
+}
+
+.bvIndicator {
+  position: absolute;
+  top: 25%;
+  right:  25px;
+  width: 15%;
+  height: 12%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #171717;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.bvIndicator::after {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  border: 10px solid transparent;
+  border-right: 10px solid #171717;
 }
 
 .qualification {
@@ -205,8 +233,24 @@
 .range {
   width: 85%;
   min-width: 0;
-  margin-top: 30px;
+  margin-top: 70px;
   align-self: center;
+}
+
+.rangeInfo {
+  margin-top: 10px;
+  align-self: center;
+  display: flex;
+  width: 93%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.rangeInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .rightContainerTitle {
@@ -325,5 +369,16 @@
   .financeTermTitle {
     max-width: 250px;
     font-size: calc(19px + 3 * (100vw / 567));
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .bvIndicator {
+    top: 18%;
+    right: 8px;
+  }
+
+  .myQualification {
+    align-self: flex-start;
   }
 }

@@ -48,7 +48,7 @@ export default function Store() {
     }
     setIsLoading(true);
     const [currPack] = packages.filter((pack, index) => pack.name === currPackageName);
-    console.log(currPack)
+
     if (!currPack) {
       return;
     }

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useSelector } from 'react-redux';
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -27,6 +27,8 @@ export default function Settings() {
     setValue(newValue);
   };
 
+  const currUser = useSelector(({user}) => user);
+
   return (
     // <div className={classes.root}>
     <Paper className={classes.root}>
@@ -44,16 +46,24 @@ export default function Settings() {
         <Tab label="Ссылки" />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <UserInfo />
+        <UserInfo
+          currUser={currUser}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ChangePass />
+        <ChangePass
+          currUser={currUser}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <PaySettings />
+        <PaySettings
+          currUser={currUser}
+        />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Links />
+        <Links
+          currUser={currUser}
+        />
       </TabPanel>
     </Paper>
   );

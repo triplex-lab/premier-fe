@@ -19,7 +19,7 @@ export default function Finance() {
   if (!user) {
     return null;
   }
-  console.log(user)
+
   const dialogFormTitle = () => {
     switch(formMode) {
       case 'purchase':
