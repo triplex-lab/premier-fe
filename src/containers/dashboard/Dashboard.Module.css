@@ -370,6 +370,9 @@
     max-width: 250px;
     font-size: calc(19px + 3 * (100vw / 567));
   }
+  .rangeInfoItem {
+    font-size: 13px;
+  }
 }
 
 @media screen and (max-width: 500px) {

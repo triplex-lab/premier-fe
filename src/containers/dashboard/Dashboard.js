@@ -176,8 +176,8 @@ export default function Dashboard() {
       }
       count += 2;
       return <div className={s.rangeInfoContainer}>
-        <span>{type}</span>
-        <span style={{marginTop: "3px"}}>{dashboard.QualRequirements[count -index].req}</span>
+        <span className={s.rangeInfoItem}>{type}</span>
+        <span className={s.rangeInfoItem} style={{marginTop: "3px"}}>{dashboard.QualRequirements[count -index].req}</span>
       </div>
     })
     return arr.filter(item => item !== undefined);
