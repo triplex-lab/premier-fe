@@ -63,27 +63,6 @@ export default ({formMode, setForm, form, onClose}) => {
             onChange={(e) => setForm({...form, amount: e.target.value})}
             helperText={form.amount <= 0 && 'Сумма должна быть больше 0'}
           />
-          {/*<FormControl className={s.styledFormControl}>
-            <InputLabel error={!!!form.m_curr} id="demo-simple-select-label">
-              Валюта
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              autoFocus
-              margin="normal"
-              label="Валюта"
-              type="text"
-              fullWidth
-              value={form.m_curr}
-              onChange={(e) => setForm({...form, m_curr: e.target.value})}
-              error={!!!form.m_curr}
-            >
-              <MenuItem value={'USD'}>USD</MenuItem>
-              <MenuItem value={'UAH'}>UAH</MenuItem>
-              <MenuItem value={'EUR'}>EUR</MenuItem>
-            </Select>
-            {!!!form.m_curr && <FormHelperText error={true}>Выберите валюту перевода</FormHelperText>}
-          </FormControl>*/}
         </FormControl>
         {isLoading && <CircularProgress />}
       </DialogContent>

@@ -8,7 +8,7 @@ import s from './Dashboard.Module.css';
 
 export default function Dashboard() {
 
-  const [dashboard, setDashboard] = useState(null);
+  const [dashboard, setDashboard] = useState({});
   const [statsPeriod, setStatsPerios] = useState('week');
 
   const getDashboard = async () => {
@@ -166,10 +166,9 @@ export default function Dashboard() {
     getDashboard();
   }, [])
 
-  if (!dashboard) {
+  if (!Object.keys(dashboard).length) {
     return null;
   }
-  console.log({dashboard})
 
   return <div className={s.root}>
       <div className={s.leftContainer}>
@@ -223,6 +222,8 @@ export default function Dashboard() {
             max={10000}
             min={0}
             marks={marks}
+            disabled
+            value={dashboard.qualBv}
           />
         </div>
       </div>

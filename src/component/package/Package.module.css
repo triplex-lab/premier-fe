@@ -1,8 +1,16 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .text {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   margin: 0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .icon {
@@ -12,4 +20,14 @@
 .in {
   max-width: 350px;
   padding: 10px;
+}
+
+.textOpacity {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  opacity: .5;
 }

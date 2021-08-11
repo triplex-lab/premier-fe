@@ -48,7 +48,7 @@ export default () => {
               <div className={s.circle}>
                 {referal.user && referal.user.firstname[0].toUpperCase()}
               </div>
-             {referal.user && createName(referal.user.firstname, referal.user.lastname)}
+             <span className={s.userName}>{referal.user && createName(referal.user.firstname, referal.user.lastname)}</span>
             </span>}
             {referal.user && <span className={s.linearUserEmail}><b>email:</b> {referal.user.email}</span>}
             {referal.user && <span className={s.linearUserEmail}><b>qualify:</b> {referal.user.qual}</span>}

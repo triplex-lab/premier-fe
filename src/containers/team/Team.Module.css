@@ -4,8 +4,18 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 50px;
-  padding-bottom: 40px;
+  padding: 20px 30px 40px 30px;
+  position: relative;
+}
+
+.teamBar{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 0px;
+  color: #ec860d !important;
 }
 
 .referalsSection {
@@ -24,6 +34,7 @@
   left: 50%;
   transform: translateX(-50%);
   height: 100%;
+  min-height: 500px;
 }
 
 .linearReferalsRow {
@@ -35,16 +46,10 @@
   align-items: center;
 }
 
-/*.referal {
-  width: 150px;
-  height: 200px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  margin: 20px;
-}*/
+.userName {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
 .referalName {
   max-width: 140px;
@@ -86,15 +91,21 @@
   justify-content: space-between;
   font-weight: bold;
   color: #ec860d;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap
 }
 
 .linearUserEmail, .currUserEmail, .referalEmail {
   font-size: 19px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap
 }
 
 .circle {
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   border-radius: 50%;
   border: 1px solid #bdbdbd;
   display: flex;
@@ -115,4 +126,14 @@
   justify-content: space-between;
   padding: 15px;
   margin: 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .root {
+    padding: 20px 10px 40px 10px;
+  }
+
+  .controllButton {
+    max-width: 140px;
+  }
 }

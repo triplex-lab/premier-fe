@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     height: "100%",
+    minHeight: 'calc(100vh - 60px)',
   },
 });
 
