@@ -42,7 +42,7 @@ export default function Finance() {
     <div className={s.root}>
       <div className={s.container}>
         <h2 className={s.rightInfo}>Счет: {user.money} {user.MONEY_SYMBOL}</h2>
-        <h2>Finance</h2>
+        <h2 style={{marginTop: 0}}>Finance</h2>
         <div className={s.payCards}>
           <div className={s.payCard}>
             <div className={s.cardInfo}>
