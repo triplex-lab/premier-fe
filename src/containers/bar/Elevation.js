@@ -9,20 +9,14 @@ import { getCurrentUser } from "../../redux/user/userOperations";
 
 
 
-export default ({generalData}) => {
+export default ({currentUser}) => {
 
-  if (!generalData) {
+  if (!currentUser || !currentUser.legInfo) {
     return null;
   }
-  const [leg, setLeg] = useState(null);
-  const [currentLeg, setCurrentLeg] = useState('');
 
-  useEffect(() => {
-    if (!leg || !currentLeg && generalData.legInfo) {
-      setLeg(generalData.legInfo);
-      setCurrentLeg(generalData.legInfo.setting);
-    }
-  }, [generalData])
+  const leg = currentUser.legInfo;
+  const currentLeg = currentUser.legInfo.setting;
 
   if (!leg) {
     return <p>Elevation</p>;
@@ -37,7 +31,6 @@ export default ({generalData}) => {
       axios.get(`/setLeg?leg=${legParam}`)
         .then(res => {
           if (res.status === 200 && res.data) {
-            setCurrentLeg(legParam)
             dispatch(getCurrentUser())
           }
         })

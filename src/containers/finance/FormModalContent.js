@@ -1,17 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import {
   TextField,
-  Select,
-  MenuItem,
   FormControl,
   DialogActions,
   DialogContent,
   Button,
-  InputLabel,
-  FormHelperText,
   CircularProgress ,
 } from '@material-ui/core';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getCurrentUser } from '../../redux/user/userOperations';
 
 import s from "./Finance.module.css";
 
@@ -20,6 +18,7 @@ export default ({formMode, setForm, form, onClose}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
+  const dispatch = useDispatch();
 
   const onCloseModal = () => {
     onClose();
@@ -35,13 +34,12 @@ export default ({formMode, setForm, form, onClose}) => {
       if (!isFormFilled || isLoading) {
         return;
       }
-      let res;
       await axios
-        .post("/finance/add", form)
-        .then((response) => {
-          console.log(response)
-          //res = response.data.url;
-          //window.open(res);
+        .post(`/finance/add`, form)
+        .then((res) => {
+          if (res.status === 200 || res.status === 201) {
+            dispatch(getCurrentUser())
+          }
           setIsLoading(false);
         })
         .catch((error) => {
@@ -77,10 +75,54 @@ export default ({formMode, setForm, form, onClose}) => {
     </Fragment>);
   }
 
-    case 'output':
-    return <Fragment>
-      output
-    </Fragment>
+    case 'output':{
+      let isFormFilled = form.amount > 0;
+  
+      const handleReplenishment = async () => {
+        setIsLoading(true);
+        if (!isFormFilled || isLoading) {
+          return;
+        }
+        await axios
+          .post(`/finance/out`, form)
+          .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+              dispatch(getCurrentUser())
+            }
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            setIsLoading(false)
+          });
+      }
+      return (<Fragment>
+        <DialogContent className={s.dialogContent}>
+          <FormControl fullWidth>
+            <TextField
+              autoFocus
+              margin="normal"
+              label="Сумма"
+              type="number"
+              fullWidth
+              error={form.amount <= 0}
+              value={form.amount}
+              onChange={(e) => setForm({...form, amount: e.target.value})}
+              helperText={form.amount <= 0 && 'Сумма должна быть больше 0'}
+            />
+          </FormControl>
+          {isLoading && <CircularProgress />}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onCloseModal} color="primary">
+            Cancel
+          </Button>
+          <Button disabled={isLoading || !isFormFilled} onClick={handleReplenishment} color="primary">
+            Next
+          </Button>
+        </DialogActions>
+      </Fragment>);
+    }
+  
 
     case 'transfer': {
     let isFormFilled = form.amount > 0 && form.login ? true : false;

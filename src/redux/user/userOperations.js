@@ -6,7 +6,11 @@ export const getCurrentUser = () => async (dispatch) => {
   await axios
     .get("/dashboard")
     .then((response) => {
-      dispatch(userAction.getCurrentUserSuccess({...response.data.currentUser, legInfo: response.data.legInfo}));
+      dispatch(userAction.getCurrentUserSuccess({
+        ...response.data.currentUser,
+        legInfo: response.data.legInfo,
+        MONEY_SYMBOL: response.data.MONEY_SYMBOL,
+      }));
     })
     .catch((error) => {
       dispatch(userAction.getCurrentUserError(error));

@@ -50,13 +50,13 @@ export default function Bar({setIsMobileMode}) {
       </div>
       <div className={s.barElevation}>
         <Elevation
-          generalData={generalData}
+          currentUser={currUser}
         />
       </div>
       <div className={s.balance + ' ' + s.barItem}>
         <NavLink to={`/dashboard/finance`}>
           <Balance
-            generalData={generalData}
+            currentUser={currUser}
           />
         </NavLink>
       </div>

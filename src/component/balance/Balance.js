@@ -2,12 +2,11 @@ import React from "react";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import s from "./Balance.module.css";
 
-export default ({generalData}) => {
-  if (!generalData) {
+export default ({currentUser}) => {
+  if (!currentUser) {
     return null;
   }
-  const { money } = generalData.currentUser;
-  const { MONEY_SYMBOL } = generalData;
+  const { money, MONEY_SYMBOL} = currentUser;
 
   return (
     <div className={s.root}>
