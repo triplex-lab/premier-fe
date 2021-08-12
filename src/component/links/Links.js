@@ -13,22 +13,20 @@ export default () => {
 
   const [msg, setMsg] = useState("");
   const [status, setstatus] = useState("");
-  const [links, setLinks] = useState(
-    {
-      forex4you: '',
-      roboforex: '',
-      forexbox: '',
-      vk: '',
-      facebook: '',
-      instagram: '',
-    }
-  );
+  const [form, setForm] = useState({
+    forex4you: '',
+    roboforex: '',
+    forexbox: '',
+    vk: '',
+    facebook: '',
+    instagram: '',
+  });
 
   const getLinks = async () => {
     await axios.get('/settings')
       .then(res => {
         if (res.data && res.data.settings) {
-          setLinks(res.data.settings);
+          setForm(res.data.settings);
         }
       })
       .catch(err => {
@@ -37,7 +35,7 @@ export default () => {
   }
 
   const funSub = async () => {
-    await axios.post('/settings', {...formik.values, tab: 'links'})
+    await axios.post('/settings', {...form, tab: 'links'})
       .then(res => {
         if (res.status === 201) {
           console.log(res)
@@ -51,30 +49,18 @@ export default () => {
       })
   };
 
-  const formik = useFormik({
-    initialValues: {
-      forex4you: links.forex4you,
-      roboforex: links.roboforex,
-      forexbox: links.forexbox,
-      vk: links.vk,
-      facebook: links.facebook,
-      instagram: links.instagram,
-    },
-    onSubmit: funSub,
-  });
-
   useEffect(() => {
     getLinks();
   }, [false])
 
-  if (!links) {
+  if (!form) {
     return null;
   }
 
   return (
     <Container maxWidth="sm">
       <h3>Ссылки</h3>
-      <form onSubmit={formik.handleSubmit} className={s.form}>
+      <form className={s.form}>
         <Notification message={msg} cleanMsg={() => setMsg("")} />
         <TextField
           fullWidth
@@ -82,9 +68,8 @@ export default () => {
           id="forex4you"
           name="forex4you"
           label="forex4you"
-          value={formik.values.forex4you}
-          onChange={formik.handleChange}
-          error={formik.touched.forex4you && Boolean(formik.errors.forex4you)}
+          value={form.forex4you}
+          onChange={(e) => setForm({...form, forex4you: e.target.value})}
           helperText="Партнёрская ссылка Forex4You"
         />
         <TextField
@@ -93,9 +78,8 @@ export default () => {
           id="roboforex"
           name="roboforex"
           label="roboforex"
-          value={formik.values.roboforex}
-          onChange={formik.handleChange}
-          error={formik.touched.roboforex && Boolean(formik.errors.roboforex)}
+          value={form.roboforex}
+          onChange={(e) => setForm({...form, roboforex: e.target.value})}
           helperText="Партнёрская ссылка Roboforex"
         />
         <TextField
@@ -104,9 +88,8 @@ export default () => {
           id="forexbox"
           name="forexbox"
           label="forexbox"
-          value={formik.values.forexbox}
-          onChange={formik.handleChange}
-          error={formik.touched.forexbox && Boolean(formik.errors.forexbox)}
+          value={form.forexbox}
+          onChange={(e) => setForm({...form, forexbox: e.target.value})}
           helperText="Партнёрская ссылка Forex Box"
         />
         <TextField
@@ -115,10 +98,8 @@ export default () => {
           id="vk"
           name="vk"
           label="vk"
-          value={formik.values.vk}
-          onChange={formik.handleChange}
-          error={formik.touched.vk && Boolean(formik.errors.vk)}
-          helperText={formik.touched.vk && formik.errors.vk}
+          value={form.vk}
+          onChange={(e) => setForm({...form, vk: e.target.value})}
         />
         <TextField
           fullWidth
@@ -126,10 +107,8 @@ export default () => {
           id="facebook"
           name="facebook"
           label="facebook"
-          value={formik.values.facebook}
-          onChange={formik.handleChange}
-          error={formik.touched.facebook && Boolean(formik.errors.facebook)}
-          helperText={formik.touched.facebook && formik.errors.facebook}
+          value={form.facebook}
+          onChange={(e) => setForm({...form, facebook: e.target.value})}
         />
         <TextField
           fullWidth
@@ -137,17 +116,15 @@ export default () => {
           id="instagram"
           name="instagram"
           label="instagram"
-          value={formik.values.instagram}
-          onChange={formik.handleChange}
-          error={formik.touched.instagram && Boolean(formik.errors.instagram)}
-          helperText={formik.touched.instagram && formik.errors.instagram}
+          value={form.instagram}
+          onChange={(e) => setForm({...form, instagram: e.target.value})}
         />
         {status !== 200 ? (
-          <Button color="primary" variant="outlined" fullWidth type="submit">
+          <Button color="primary" variant="outlined" fullWidth onClick={funSub}>
             Сохранить
           </Button>
         ) : (
-          <Button disabled variant="outlined" fullWidth type="submit">
+          <Button disabled variant="outlined" fullWidth>
             успешно
           </Button>
         )}
