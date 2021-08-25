@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
 import HistoryTransaction from "../../component/historyTransaction/HistoryTransaction";
 import s from "./Finance.module.css";
@@ -12,6 +13,12 @@ export default function Finance() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formMode, setFormMode] = useState('');
   const [form, setForm] = useState({});
+
+  const user = useSelector(({user}) => user);
+
+  if (!user) {
+    return null;
+  }
 
   const dialogFormTitle = () => {
     switch(formMode) {
@@ -34,13 +41,14 @@ export default function Finance() {
   return (
     <div className={s.root}>
       <div className={s.container}>
+        <h2 className={s.rightInfo}>Счет: {user.money} {user.MONEY_SYMBOL}</h2>
         <h2>Finance</h2>
         <div className={s.payCards}>
           <div className={s.payCard}>
             <div className={s.cardInfo}>
               <Alert/>
               <span className={s.cardInfoText}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, eaque.
+                Пополнение личного кабинета в системе Payeer производится с <b>0.95%</b> комиссией.
               </span>
             </div>
             <Button
@@ -60,7 +68,7 @@ export default function Finance() {
             <div className={s.cardInfo}>
               <Alert/>
               <span className={s.cardInfoText}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, eaque.
+                Комиссия платёжной системы за вывод составляет <b>0.95%</b>
               </span>
             </div>
             <div className={s.payeerImg}></div>
@@ -81,7 +89,7 @@ export default function Finance() {
             <div className={s.cardInfo}>
               <Alert/>
               <span className={s.cardInfoText}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, eaque.
+                Переводы внутри системы Premier Club осуществляются без комиссии и моментально.
               </span>
             </div>
             <Button

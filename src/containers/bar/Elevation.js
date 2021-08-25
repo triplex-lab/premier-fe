@@ -1,61 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useDispatch } from "react-redux";
 
 import s from './Bar.module.css';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { getCurrentUser } from "../../redux/user/userOperations";
 
 
-export default () => {
 
-  const [leg, setLeg] = useState(null);
-  const [currLeg, setCurrLeg] = useState(null);
+export default ({currentUser}) => {
 
-
-  const getLeg = async () => {
-    await axios.get('/dashboard')
-      .then(res => {
-        console.log(res)
-        if (res.data && res.data.legInfo) {
-          setLeg(res.data.legInfo)
-        }
-      })
-      .catch(err => console.log(err));
+  if (!currentUser || !currentUser.legInfo) {
+    return null;
   }
 
-  useEffect(() => {
-    if (!leg) {
-      getLeg();
-    }
-  }, [])
+  const leg = currentUser.legInfo;
+  const currentLeg = currentUser.legInfo.setting;
 
   if (!leg) {
     return <p>Elevation</p>;
   }
 
-  const activeSideStyle = {
+  const dispatch = useDispatch();
+
+  const setLegHandler = (legParam) => {
+    if (legParam === currentLeg) {
+      return;
+    } else {
+      axios.get(`/setLeg?leg=${legParam}`)
+        .then(res => {
+          if (res.status === 200 && res.data) {
+            dispatch(getCurrentUser())
+          }
+        })
+        .catch(err => console.log(err))
+    } 
+  }
+
+  const activeStyle = {
     color: '#ec860d',
     border: "3px solid #ec860d",
   }
 
-  const activeStyle = {
-    color: '#fff',
-    backgroundColor: '#ec860d',
-  }
-
   return <div className={s.elevation}>
-    <div onClick={() => setCurrLeg('left')} className={s.elevationItem}>
-    <div style={currLeg === 'left' ? activeSideStyle : {}} className={s.iconHolder}>
+    <div onClick={() => setLegHandler('left')} className={s.elevationItem}>
+    <div style={currentLeg === 'left' ? activeStyle : {}} className={s.iconHolder}>
       <ChevronLeftIcon color='inherit' fontSize='inherit'/>
     </div>
-      <b>B: {leg.left.total}</b>
+      <b style={{fontSize: '18px'}}>B: {leg.left && leg.left.total}</b>
     </div>
-    <div style={currLeg === 'auto' ? activeStyle : {}} onClick={() => setCurrLeg('auto')} className={s.centerItem}>
+    <div className={s.centerItem}>
       A
     </div>
-    <div onClick={() => setCurrLeg('right')} className={s.elevationItem}>
-      <b>B: {leg.right.total}</b>
-      <div style={currLeg === 'right' ? activeSideStyle : {}} className={s.iconHolder}>
+    <div onClick={() => setLegHandler('right')} className={s.elevationItem}>
+      <b style={{fontSize: '18px'}}>B: {leg.right && leg.right.total}</b>
+      <div style={currentLeg === 'right' ? activeStyle : {}} className={s.iconHolder}>
         <ChevronRightIcon color='inherit' fontSize='inherit'/>
       </div>
     </div>

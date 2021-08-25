@@ -48,7 +48,6 @@ function stableSort(array, comparator) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  console.log(stabilizedThis)
   return stabilizedThis.map((el) => el[0]);
 }
 
@@ -224,7 +223,6 @@ export default function EnhancedTable() {
   const getRows = async () => {
     await axios.get('/finance')
       .then(res => {
-        console.log(res.data);
         if (res.data && res.data.moneyTxs) {
           setRows(res.data.moneyTxs)
         }

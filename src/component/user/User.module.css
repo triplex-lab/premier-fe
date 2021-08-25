@@ -3,20 +3,3 @@
   grid-auto-flow: column;
   align-items: center;
 }
-
-.name {
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 15px;
-}
-
-.wrap {
-  text-align: center;
-  margin-right: 5px;
-}
-
-@media screen and (max-width: 768px) {
-  .wrap {
-    display: none;
-  }
-}

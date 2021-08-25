@@ -1,47 +1,55 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { Container } from "@material-ui/core";
+import axios from 'axios';
+
 import Notification from "../../component/notification/Notification";
 import s from "./UserInfo.module.css";
-import { Container } from "@material-ui/core";
+
 
 const validationSchema = yup.object({
-  tel: yup
+  phone: yup
     .string("Enter your tel")
     .min(3, "tel should be of minimum 3 characters length")
     .required("tel is required"),
-  name: yup.string("Enter your name").required("name is required"),
+    firstname: yup.string("Enter your firstname").required("firstname is required"),
   lastname: yup.string("Enter your lastname").required("lastname is required"),
   middlename: yup.string("Enter your middlename"),
   city: yup.string("Enter your city"),
 });
 
-const setUserInfo = (data) => {
-  console.log(data);
-};
-
-export default function UserInfo() {
-  const dispatch = useDispatch();
-
+export default ({currUser}) => {
   const [msg, setMsg] = useState("");
   const [status, setstatus] = useState("");
 
-  const funSub = async (data) => {
-    const statusCode = await dispatch(setUserInfo(data));
-    setMsg(statusCode.message);
-    setstatus(statusCode.status);
+  if (!currUser) {
+    return null;
+  }
+  const funSub = async () => {
+    await axios.post('/settings', {...formik.values, tab: 'general'})
+      .then(res => {
+        if (res.status === 201) {
+          console.log(res)
+          setMsg('Успешная операция');
+          setstatus(res.status);
+        }
+      })
+      .catch(() => {
+        setMsg('Ошибка, попробуйте позже');
+        setstatus(400);
+      })
   };
 
   const formik = useFormik({
     initialValues: {
-      tel: "",
-      name: "",
-      lastname: "",
-      middlename: "",
-      city: "",
+      phone: currUser.phone,
+      firstname: currUser.firstname,
+      lastname: currUser.lastname,
+      middlename: currUser.middlename,
+      city: currUser.city,
     },
     validationSchema: validationSchema,
     onSubmit: funSub,
@@ -50,28 +58,31 @@ export default function UserInfo() {
     <Container maxWidth="sm">
       <h3>Общая информация</h3>
       <form onSubmit={formik.handleSubmit} className={s.form}>
-        <Notification message={msg} cleanMsg={() => setMsg("")} />
+        <Notification message={msg} cleanMsg={() => {
+            setMsg("");
+            setstatus(null)
+          }} />
         <TextField
           fullWidth
           variant="outlined"
-          id="tel"
-          name="tel"
-          label="tel"
-          value={formik.values.tel}
+          id="phone"
+          name="phone"
+          label="phone"
+          value={formik.values.phone}
           onChange={formik.handleChange}
-          error={formik.touched.tel && Boolean(formik.errors.tel)}
-          helperText={formik.touched.tel && formik.errors.tel}
+          error={formik.touched.phone && Boolean(formik.errors.phone)}
+          helperText={formik.touched.phone && formik.errors.phone}
         />
         <TextField
           fullWidth
           variant="outlined"
-          id="name"
-          name="name"
-          label="name"
-          value={formik.values.name}
+          id="firstname"
+          name="firstname"
+          label="firstname"
+          value={formik.values.firstname}
           onChange={formik.handleChange}
-          error={formik.touched.name && Boolean(formik.errors.name)}
-          helperText={formik.touched.name && formik.errors.name}
+          error={formik.touched.firstname && Boolean(formik.errors.firstname)}
+          helperText={formik.touched.firstname && formik.errors.firstname}
         />
         <TextField
           fullWidth
@@ -106,8 +117,8 @@ export default function UserInfo() {
           error={formik.touched.city && Boolean(formik.errors.city)}
           helperText={formik.touched.city && formik.errors.city}
         />
-        {status !== 200 ? (
-          <Button color="primary" variant="contained" fullWidth type="submit">
+        {status !== 201 ? (
+          <Button color="primary" variant="outlined" fullWidth type="submit">
             Сохранить
           </Button>
         ) : (

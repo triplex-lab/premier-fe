@@ -10,6 +10,8 @@ import routes from "./routers";
 import axios from "axios";
 import { useSelector } from "react-redux";
 axios.defaults.baseURL = process.env.REACT_APP_DOMAIN_ADDRESS;
+axios.defaults.withCredentials = true;
+
 
 function verifyToken(token) {
   if (token) {

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import InfoIcon from "@material-ui/icons/Info";
-import s from "./Package.module.css";
-import { Button, Popover } from "@material-ui/core";
+import { Popover } from "@material-ui/core";
 
-export default function Package() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+import s from "./Package.module.css";
+
+
+export default function Package({generalData}) {
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  if (!generalData) {
+    return null;
+  }
+  let { activePackName, qual} = generalData.currentUserInfo;
+  let { invitedCount, legInfo, inviterFullName } = generalData;
+  let { createdAt } = generalData.currentUser;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,14 +28,14 @@ export default function Package() {
   const id = open ? "simple-popover" : undefined;
   return (
     <>
-      <div>
+      <div className={s.root}>
         <p className={s.text}>
           Пакет
           <InfoIcon
             aria-describedby={id}
             onClick={handleClick}
             className={s.icon}
-            style={{ color: "#bec3d1" }}
+            style={{ color: "#bec3d1", marginLeft: 'auto'}}
           />
           <Popover
             id={id}
@@ -42,16 +52,19 @@ export default function Package() {
             }}
           >
             <div className={s.in}>
-              some business info
+              <b><h3 style={{margin: 0}}>Some business info</h3></b>
               <div>
-                Ваш пакет BUSINESS Дата регистрации 30.01.2021 Спонсор 1 1
-                Положение в бинаре Справа Приглашенных 4
+                <p>Ваш пакет {activePackName}</p>
+                <p>Дата регистрации {createdAt.slice(0, 10)}</p>
+                <p>Спонсор {inviterFullName}</p>
+                <p>Положение в бинаре {legInfo.setting}</p>
+                <p>Приглашенных {invitedCount}</p>
               </div>
               <div>Активность партнерская Активность до Нет Активности!</div>
             </div>
           </Popover>
         </p>
-        <p className={s.text}>Квалификация</p>
+        <p className={s.textOpacity}>{qual}</p>
       </div>
     </>
   );

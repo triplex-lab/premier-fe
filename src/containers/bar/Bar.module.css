@@ -4,7 +4,7 @@
   height: 60px;
   display: flex;
   align-items: center;
-  padding: 0px 0px 0px 100px;
+  padding: 0px 70px 0px 70px;
   box-shadow: 0px 4px 8px 0px #bec3d1;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -15,28 +15,29 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 24%;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .menuButton {
   color: #2e303d;
   position: absolute;
-  left: 0;
+  left: 3px;
 }
 
 .userActions {
-  width: 22%;
+  position: absolute;
+  right: 0;
+  width: 70px;
   justify-content: flex-end;
-  padding-right: 20px;
+  padding-right: 15px;
 }
 
 .balance {
-  width: 30%;
+  width: 28%;
 }
 
 .elevation {
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -74,28 +75,81 @@
   align-items: center;
 }
 
-@media screen and (max-width: 600px) {
-  .package {
-    display: none;
-  }
-  
-  .barItem {
-    width: 40%;
+.barElevation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 37%;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.package {
+  width: 34%;
+}
+
+@media screen and (max-width: 1200px) {
+  .barElevation {
+    width: 35.5%;
   }
 
-  .userActions {
-    width: 20%;
-    padding-right: 10px;
+  .package {
+    width: 32.5%;
   }
 }
 
-@media screen and (max-width: 481px) {
-  .userActions {
-    width: 20%;
-    padding-right: 0px;
+@media screen and (max-width: 1110px) {
+  .package {
+    width: 25%;
   }
 
-  .root {
-    padding: 0px 10px 0px 70px;
+  .barElevation {
+    width: 45%;
+  }
+
+  .balance {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 906px) {
+  .elevation {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 753px) {
+  .centerItem {
+    display: none;
+  }
+
+  .elevationItem {
+    width: 50%;
+  }
+
+  .package {
+    display: none;
+  }
+
+  .barElevation {
+    width: 55%;
+  }
+
+  .balance {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 558px) {
+  .balance {
+    display: none;
+  }
+
+  .barElevation {
+    display: none;
+  }
+
+  .userActions {
+    border-left: none;
   }
 }

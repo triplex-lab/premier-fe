@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import s from "./FormSignup.module.css";
-import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 import { signUp } from "../../../redux/auth/authOperations";
 import Notification from "../../notification/Notification";
@@ -48,12 +47,15 @@ export default function FormSignup() {
 
   const funSub = async (data) => {
     const statusCode = await dispatch(signUp(data));
-    setMsg(statusCode.message);
+    console.log(statusCode)
+    if (statusCode.status !== 201) {
+      setMsg(statusCode.message.error.message);
+      setstatus(statusCode.status);
+      return;
+    }
+    setMsg('Успешная операция');
     setstatus(statusCode.status);
   };
-
-  //let { referral } = useParams();
-  //const ref = referral === "ref" ? "" : referral;
 
   const formik = useFormik({
     initialValues: {
@@ -65,7 +67,6 @@ export default function FormSignup() {
       lastname: "",
       middlename: "",
       city: "",
-      refCode: 'iPrRRGLzNeMCMtfgYzBmAz'
     },
     validationSchema: validationSchema,
     onSubmit: funSub,
@@ -73,18 +74,6 @@ export default function FormSignup() {
   return (
     <form onSubmit={formik.handleSubmit} className={s.root}>
       <Notification message={msg} cleanMsg={() => setMsg("")} />
-      {/*<TextField
-        fullWidth
-        variant="outlined"
-        id="ref"
-        name="ref"
-        label="спонсор"
-        value={formik.values.ref}
-        onChange={formik.handleChange}
-        error={formik.touched.ref && Boolean(formik.errors.ref)}
-        helperText="Впишите логин вашего спонсора или попросите у него ссылку на регистрацию"
-        // helperText={formik.touched.ref && formik.errors.ref}
-      />*/}
       <TextField
         fullWidth
         variant="outlined"
@@ -176,29 +165,12 @@ export default function FormSignup() {
           formik.touched.phone && formik.errors.phone
         }
       />
-      {/*<TextField
-        fullWidth
-        variant="outlined"
-        id="password"
-        name="password"
-        label="Пароль"
-        type="password"
-        value={formik.values.pwd1}
-        onChange={formik.handleChange}
-        error={
-          formik.touched.pwd1 &&
-          Boolean(formik.errors.pwd1)
-        }
-        helperText={
-          formik.touched.pwd1 && formik.errors.pwd1
-        }
-      />*/}
       <TextField
         fullWidth
         variant="outlined"
         id="pwd1"
         name="pwd1"
-        label="Подтверждение пароля"
+        label="Пароль"
         type="password"
         value={formik.values.pwd1}
         onChange={formik.handleChange}
@@ -227,12 +199,12 @@ export default function FormSignup() {
           formik.touched.pwd2 && formik.errors.pwd2
         }
       />
-      {Number(status) && status !== 201 ? (
-        <Button color="primary" variant="contained" fullWidth type="submit">
-          Регистрация
+      {status !== 201 ? (
+        <Button color="primary" variant="outlined" fullWidth type="submit">
+          Зарегистрироватся
         </Button>
       ) : (
-        <Button variant="outlined" fullWidth type="submit">
+        <Button variant="outlined" fullWidth>
           успешная регистрация проверьте почту
         </Button>
       )}

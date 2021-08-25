@@ -10,10 +10,10 @@ export default ({packages, setCurrPackage, setIsModalOpen}) => {
 
   const setPackage = (packageTitle) => {
     setIsModalOpen(true);
-    setCurrPackage(packageTitle.toLowerCase());
+    setCurrPackage(packageTitle);
   }
 
-  if (packages) {
+  if (packages.length > 0) {
     return packages.map((pack, index) => {
       return <StoreCard
         upgrade={packagesCount !== 4}
@@ -22,7 +22,7 @@ export default ({packages, setCurrPackage, setIsModalOpen}) => {
         cardTitle={pack.name}
         cardPackPrice={`${pack.price} y.e.`}
         licenseTerm={pack.expireTime > 0 ? `${Math.floor(pack.expireTime / (60 * 60 * 24 * 30 * 1000))} месяцев` : 'Безлимит'}
-        img={staticData[index].img}
+        img={staticData[4 - packagesCount + index].img}
         quantity={pack.quantity}
       />
     });

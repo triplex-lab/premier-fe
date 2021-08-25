@@ -12,6 +12,12 @@ html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
 }
+/*range value label (Dashboard)*/
+
+.PrivateValueLabel-circle-10{
+  width: 50px !important;
+  height: 50px !important;
+}
 
 /* Sections
    ========================================================================== */

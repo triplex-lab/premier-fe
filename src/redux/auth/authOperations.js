@@ -33,8 +33,8 @@ export const signUp = (userData) => async (dispatch) => {
   dispatch(authAction.signupRequest());
   return await axios
     .post("/register", userData)
-    .then(({ status }) => {
-      return { status };
+    .then(res => {
+      return {status: res.status};
     })
     .catch((error) => {
       return { status: error.response.status, message: error.response.data };
