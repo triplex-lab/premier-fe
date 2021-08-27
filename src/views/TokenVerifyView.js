@@ -11,7 +11,7 @@ import s from "./Views.module.css";
 
 const verification = async (verToken) => {
   return await axios
-    .get(`/api/auth/verify/${verToken}`)
+    .get(`/verify/${verToken}`)
     .then(({ status }) => ({ code: status }))
     .catch(({ response }) => ({
       code: response.status,
