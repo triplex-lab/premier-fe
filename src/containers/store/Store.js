@@ -52,7 +52,7 @@ export default function Store() {
     if (!currPack) {
       return;
     }
-    await axios.post(`http://localhost:5000/order/buy`, {
+    await axios.post(`/order/buy`, {
       pack: currPack.id,
     })
       .then(response => {
